@@ -5,11 +5,11 @@ public class Creator extends Persona {
 	private String dmca = "";
 
 	public Creator(String code, String dmca) {
-		this.creatorCode=code;
-		this.dmca=dmca;
+		this.creatorCode = code;
+		this.dmca = dmca;
 	}
-	
+
 	public String cosas() {
-		return creatorCode+dmca;
+		return creatorCode + dmca;
 	}
 }
