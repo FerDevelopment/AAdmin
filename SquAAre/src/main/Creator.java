@@ -1,6 +1,6 @@
 package main;
 
-public class Creator extends Persona {
+public class Creator extends Person {
 	private String creatorCode = "";
 	private String dmca = "";
 
