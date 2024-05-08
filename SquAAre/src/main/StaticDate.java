@@ -8,5 +8,8 @@ public class StaticDate {
 	final private Boolean SLoginServer = null;
 	final private Boolean SLogin = null;
 	final private Boolean SSong = null;
+	final public static  String LOCALMUSIC="./import/music/";
+	final public static  String LOCALINFORM="";
+	
 	
 }
