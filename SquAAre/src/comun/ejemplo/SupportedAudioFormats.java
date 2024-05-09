@@ -8,6 +8,7 @@ public class SupportedAudioFormats {
         System.out.println("Supported Audio File Formats:");
         for (AudioFileFormat.Type type : types) {
             System.out.println(type);
+            System.out.println("xd");
         }
     }
 }
