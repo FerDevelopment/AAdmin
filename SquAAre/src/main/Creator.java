@@ -3,23 +3,24 @@ package main;
 
 public class Creator extends Person
 {
-   private String creatorCode = "";
-   private String dmca        = "";
+
+	private static final long serialVersionUID = 3L;
+	private String creatorCode = "";
+	private String dmca = "";
 
 
-   public Creator()
-   {
-	  super();
+	public Creator()
+	{
+		super();
 
-   }
-
-
+	}
 
 
-   public String cosas()
-   {
-	  return creatorCode
-	        + dmca;
-   }
+
+
+	public String cosas()
+	{
+		return creatorCode + dmca;
+	}
 
 }
