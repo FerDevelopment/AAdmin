@@ -3,8 +3,6 @@ package comun.ejemplo;
 
 import java.io.*;
 
-import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.sound.sampled.spi.*;
 
 public class PruebaFile
 {
@@ -21,6 +19,11 @@ public class PruebaFile
 		{
 			System.out.println(lista[i]);
 		}
+		for (int i = 0; i < canciones.length; i++)
+		{
+			System.out.println(canciones[i].getName());
+		}
+		
 		
 		
 		

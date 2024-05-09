@@ -1,10 +1,8 @@
 
 package main;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 
-public class Server {
+public class Server {/*
 
 	final private String IDLOGIN = null;
 	final private String IDSONG = null;
@@ -22,7 +20,7 @@ public class Server {
 				.setCredentials(GoogleCredentials.fromStream(serviceAccount)).build();
 
 		FirebaseApp.initializeApp(options);
-*/
 	}
+*/
 
 }
