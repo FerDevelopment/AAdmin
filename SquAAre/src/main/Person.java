@@ -9,7 +9,7 @@ public class Person implements Serializable
 {
 
 	private static final long serialVersionUID = 1L;
-	private static Integer encrypNum = StaticDate.ecn;
+	private static Integer encrypNum = StaticData.ecn;
 	protected String name = null;
 	protected String surname = null;
 	protected String email = null;
@@ -79,7 +79,7 @@ public class Person implements Serializable
 		String noNumPattern = "^[\\D]+$";
 		String phonePattern = "^[0-9]{9}$";
 		String birthPattern = "^[0-9]{4}-[0-9]{2}-[0-9]{2}";
-		Printer.print("\n\n" + StaticDate.BARRA + "Datos personales" + StaticDate.BARRA + "\n\n");
+		Printer.print("\n\n" + StaticData.BARRA + "Datos personales" + StaticData.BARRA + "\n\n");
 		Printer.print("Introduzca su nombre: ");
 		this.name = getText(name, noNumPattern);
 		Printer.print("Introduzca sus apellidos: ");
