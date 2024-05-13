@@ -8,8 +8,9 @@ public class StaticData
 {
 
 	/*
-	 * final private String IDLOGIN = null; final private String IDSONG = null;
-	 * public Boolean SSongServer = false; public Boolean SLoginServer = false;
+	 * final private String IDLOGIN = null; final private String IDSONG =
+	 * null; public Boolean SSongServer = false; public Boolean
+	 * SLoginServer = false;
 	 */
 	public ArrayList<User> savedUser = null;
 	public Boolean SLogin = false;
@@ -25,54 +26,77 @@ public class StaticData
 	final public static String BARRA = "-------------------------";
 	public static Integer ecn = 3;
 
+
 	public StaticData()
 	{
 		getUsers();
 	}
-	
 
-	@SuppressWarnings("unchecked")
+
+
+
+	@SuppressWarnings( "unchecked" )
 	protected void getUsers()
 	{
 		File file = new File(LOCALUSER);
+
+
 		if (file.exists())
 		{
+
+
 			try
 			{
 				FileInputStream fileIn = new FileInputStream(LOCALUSER);
+
+
 				try
 				{
 					ObjectInputStream objectIn = new ObjectInputStream(fileIn);
 					savedUser = (ArrayList<User>) objectIn.readObject();
 					objectIn.close();
-				} catch (Exception e)
+				}
+				catch (Exception e)
 				{
 					savedUser = new ArrayList<User>();
 				}
-				
-			} catch (Exception ex)
+
+			}
+			catch (Exception ex)
 			{
 				ex.printStackTrace();
 			}
+
 		}
 		else
 		{
+
+
 			try
 			{
 				file.createNewFile();
-			} catch (IOException e)
+			}
+			catch (IOException e)
 			{
 				e.printStackTrace();
 			}
+
 		}
+
+
 		if (savedUser != null)
 		{
 			Collections.sort(savedUser);
 		}
 
 	}
-	 public void pause(int seg) throws InterruptedException {
-	        Thread.sleep(seg * 1000);
-	    }
+
+
+
+
+	public void pause(int seg) throws InterruptedException
+	{
+		Thread.sleep(seg * 1000);
+	}
 
 }
