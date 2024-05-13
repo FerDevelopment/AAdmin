@@ -18,102 +18,48 @@ public class Person implements Serializable
 	protected String dSC = "";
 	protected String eSC = "";
 
-
-	public Person(
-			String name,
-			String surname,
-			String email,
-			String phone,
-			String birth)
+	public Person(String name, String surname, String email, String phone, String birth)
 	{
-		super();
-		String emailPattern = ".*@.*[.][A-Za-z]{1,4}";
-		String noNumPattern = "^[\\D]+$";
-		String phonePattern = "^[0-9]{9}$";
-		String birthPattern = "^[0-9]{4}-[0-9]{2}-[0-9]{2}";
 
-		this.name = getText(name, noNumPattern);
+		this.name = name;
 
-		this.surname = getText(surname, noNumPattern);
+		this.surname = surname;
 
-		this.email = getText(email, emailPattern);
+		this.email = email;
 
-		this.phone = getText(phone, phonePattern);
-
-		birth = getText(birth, birthPattern);
-
+		this.phone = phone;
 
 		try
 		{
 			this.birth = LocalDate.parse(birth);
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			Printer.print("\n\n***La fecha se fue al garete***\n\n");
 		}
 
 	}
-
-
-
 
 	@Override
 	public String toString()
 	{
-		return "Person [name=" + name + ", surname=" + surname + ", email=" + email + ", phone=" + phone
-				+ ", birth=" + birth + ", dSC=" + dSC + ", eSC=" + eSC + "]";
+		return "Person [name=" + name + ", surname=" + surname + ", email=" + email + ", phone=" + phone + ", birth="
+				+ birth + ", dSC=" + dSC + ", eSC=" + eSC + "]";
 	}
-
-
-
 
 	public Person()
 	{
-		String name = "";
-		String surname = "";
-		String email = "";
-		String phone = "";
-		String birth = "";
+		name = "";
+		surname = "";
+		email = "";
+		phone = "";
+		birth = LocalDate.parse("2004-10-27");
 
-		String emailPattern = ".*@.*[.][A-Za-z]{1,4}";
-		String noNumPattern = "^[\\D]+$";
-		String phonePattern = "^[0-9]{9}$";
-		String birthPattern = "^[0-9]{4}-[0-9]{2}-[0-9]{2}";
-		Printer.print("\n\n" + StaticData.BARRA + "Datos personales" + StaticData.BARRA + "\n\n");
-		Printer.print("Introduzca su nombre: ");
-		this.name = getText(name, noNumPattern);
-		Printer.print("Introduzca sus apellidos: ");
-		this.surname = getText(surname, noNumPattern);
-		Printer.print("Introduzca su email: ");
-		this.email = getText(email, emailPattern);
-		Printer.print("Introduzca su numero de telefono: ");
-		this.phone = getText(phone, phonePattern);
-		Printer.print("Introduzca su fecha de nacimiento (aaaa-mm-dd): ");
-		birth = getText(birth, birthPattern);
-
-
-		try
-		{
-			this.birth = LocalDate.parse(birth);
-		}
-		catch (Exception e)
-		{
-			Printer.print("\n\n***La fecha se fue al garete***\n\n");
-		}
-
-		Printer.print("\nUsted a completado la informacion personal");
 	}
-
-
-
 
 	public void singIn()
 	{
 
 	}
-
-
-
 
 	public static Person newPerson()
 	{
@@ -127,7 +73,7 @@ public class Person implements Serializable
 		String noNumPattern = "^[\\D]+$";
 		String phonePattern = "^[0-9]{9}$";
 		String birthPattern = "^[0-9]{4}-[0-9]{2}-[0-9]{2}";
-
+		Printer.print("\n\n" + StaticData.BARRA + "Datos personales" + StaticData.BARRA + "\n\n");
 		Printer.print("Introduzca su nombre: ");
 		name = getText(name, noNumPattern);
 		Printer.print("Introduzca sus apellidos: ");
@@ -138,17 +84,14 @@ public class Person implements Serializable
 		phone = getText(phone, phonePattern);
 		Printer.print("Introduzca su fecha de nacimiento (aaaa-mm-dd): ");
 		birth = getText(birth, birthPattern);
+
+		Printer.print("\nUsted a completado la informacion personal");
 		return new Person(name, surname, email, phone, birth);
 	}
 
-
-
-
-	protected static String encrypt(
-			String intro)
+	protected static String encrypt(String intro)
 	{
 		StringBuilder aux = new StringBuilder();
-
 
 		for (int i = 0; i < intro.length(); i++)
 		{
@@ -162,14 +105,9 @@ public class Person implements Serializable
 		return aux.toString();
 	}
 
-
-
-
-	protected static String decrypt(
-			String intro)
+	protected static String decrypt(String intro)
 	{
 		StringBuilder resultado = new StringBuilder();
-
 
 		for (int i = 0; i < intro.length(); i++)
 		{
@@ -183,19 +121,12 @@ public class Person implements Serializable
 		return resultado.toString();
 	}
 
-
-
-
-	protected static String getText(
-			String text,
-			String pattern)
+	protected static String getText(String text, String pattern)
 	{
-
 
 		do
 		{
 			text = Entrada.cadena();
-
 
 			if (!text.matches(pattern))
 			{

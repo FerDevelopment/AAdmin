@@ -58,7 +58,7 @@ public class OutTextRun implements Runnable
 		// Resetea las banderas
 		isRunning = true;
 		shouldStop = false;
-		new Thread(this).start(); // Inicia un nuevo hilo para la tarea
+		
 	}
 
 
