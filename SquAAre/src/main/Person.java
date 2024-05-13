@@ -1,29 +1,74 @@
 
 package main;
 
+import java.io.*;
 import java.time.*;
 import com.comun.*;
 
-public class Person
+public class Person implements Serializable
 {
 
+	private static final long serialVersionUID = 1L;
+	private static Integer encrypNum = StaticData.ecn;
 	protected String name = null;
 	protected String surname = null;
 	protected String email = null;
 	protected String phone = null;
 	protected LocalDate birth = null;
+	protected String dSC = "";
+	protected String eSC = "";
 
 
-	public Person(String name, String surname, String email, String phone, String birth)
+	public Person(
+			String name,
+			String surname,
+			String email,
+			String phone,
+			String birth)
 	{
 		super();
-		this.name = name;
-		this.surname = surname;
-		this.email = email;
-		this.phone = phone;
-		this.birth = LocalDate.parse(birth);
+		String emailPattern = ".*@.*[.][A-Za-z]{1,4}";
+		String noNumPattern = "^[\\D]+$";
+		String phonePattern = "^[0-9]{9}$";
+		String birthPattern = "^[0-9]{4}-[0-9]{2}-[0-9]{2}";
+
+		this.name = getText(name, noNumPattern);
+
+		this.surname = getText(surname, noNumPattern);
+
+		this.email = getText(email, emailPattern);
+
+		this.phone = getText(phone, phonePattern);
+
+		birth = getText(birth, birthPattern);
+
+
+		try
+		{
+			this.birth = LocalDate.parse(birth);
+		}
+		catch (Exception e)
+		{
+			Printer.print("\n\n***La fecha se fue al garete***\n\n");
+		}
+
 	}
-	public Person() {
+
+
+
+
+	@Override
+	public String toString()
+	{
+		return "Person [name=" + name + ", surname=" + surname + ", email=" + email + ", phone=" + phone
+				+ ", birth=" + birth + ", dSC=" + dSC + ", eSC=" + eSC + "]";
+	}
+
+
+
+
+	public Person()
+	{
 		String name = "";
 		String surname = "";
 		String email = "";
@@ -34,17 +79,29 @@ public class Person
 		String noNumPattern = "^[\\D]+$";
 		String phonePattern = "^[0-9]{9}$";
 		String birthPattern = "^[0-9]{4}-[0-9]{2}-[0-9]{2}";
-		
+		Printer.print("\n\n" + StaticData.BARRA + "Datos personales" + StaticData.BARRA + "\n\n");
 		Printer.print("Introduzca su nombre: ");
-		name = getText(name, noNumPattern);
+		this.name = getText(name, noNumPattern);
 		Printer.print("Introduzca sus apellidos: ");
-		surname = getText(surname, noNumPattern);
+		this.surname = getText(surname, noNumPattern);
 		Printer.print("Introduzca su email: ");
-		email = getText(email, emailPattern);
+		this.email = getText(email, emailPattern);
 		Printer.print("Introduzca su numero de telefono: ");
-		phone = getText(phone, phonePattern);
+		this.phone = getText(phone, phonePattern);
 		Printer.print("Introduzca su fecha de nacimiento (aaaa-mm-dd): ");
 		birth = getText(birth, birthPattern);
+
+
+		try
+		{
+			this.birth = LocalDate.parse(birth);
+		}
+		catch (Exception e)
+		{
+			Printer.print("\n\n***La fecha se fue al garete***\n\n");
+		}
+
+		Printer.print("\nUsted a completado la informacion personal");
 	}
 
 
@@ -70,7 +127,7 @@ public class Person
 		String noNumPattern = "^[\\D]+$";
 		String phonePattern = "^[0-9]{9}$";
 		String birthPattern = "^[0-9]{4}-[0-9]{2}-[0-9]{2}";
-		
+
 		Printer.print("Introduzca su nombre: ");
 		name = getText(name, noNumPattern);
 		Printer.print("Introduzca sus apellidos: ");
@@ -87,7 +144,51 @@ public class Person
 
 
 
-	private static String getText(String text, String pattern)
+	protected static String encrypt(
+			String intro)
+	{
+		StringBuilder aux = new StringBuilder();
+
+
+		for (int i = 0; i < intro.length(); i++)
+		{
+			char caracter = intro.charAt(i);
+			int ascii = (int) caracter;
+			ascii = ((ascii - 32 + encrypNum) % 95) + 32;
+
+			aux.append((char) ascii);
+		}
+
+		return aux.toString();
+	}
+
+
+
+
+	protected static String decrypt(
+			String intro)
+	{
+		StringBuilder resultado = new StringBuilder();
+
+
+		for (int i = 0; i < intro.length(); i++)
+		{
+			char caracter = intro.charAt(i);
+			int ascii = (int) caracter;
+			ascii = ((ascii - 32 - encrypNum + 95) % 95) + 32;
+
+			resultado.append((char) ascii);
+		}
+
+		return resultado.toString();
+	}
+
+
+
+
+	protected static String getText(
+			String text,
+			String pattern)
 	{
 
 
@@ -101,14 +202,9 @@ public class Person
 				Printer.print("\n****Formato Incorrecto****\n");
 			}
 
-		}while (!text.matches(pattern));
+		} while (!text.matches(pattern));
 
 		return text;
-	}
-	
-	public static void main(String[] args)
-	{
-		newPerson();
 	}
 
 }

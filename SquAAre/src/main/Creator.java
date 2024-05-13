@@ -1,16 +1,26 @@
+
 package main;
 
-public class Creator extends Person {
+public class Creator extends Person
+{
+
+	private static final long serialVersionUID = 3L;
 	private String creatorCode = "";
 	private String dmca = "";
 
-	public Creator() {
+
+	public Creator()
+	{
 		super();
-		
-		
+
 	}
 
-	public String cosas() {
+
+
+
+	public String cosas()
+	{
 		return creatorCode + dmca;
 	}
+
 }
