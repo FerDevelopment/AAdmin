@@ -15,6 +15,14 @@ public class Boss extends Person implements Comparable<Boss>
 
 
 
+	public Boss()
+	{
+		// TODO Auto-generated constructor stub
+	}
+
+
+
+
 	public void createManager(StaticData data, String name, String surname, String email, String phone,
 			String birth, String area)
 	{
@@ -30,7 +38,7 @@ public class Boss extends Person implements Comparable<Boss>
 			String birth, String area)
 	{
 		Employee employee = new Employee(name, surname, email, phone, birth, area);
-		data.savedUser.add(employee);
+		data.savedEmployee.add(employee);
 		data.addLogMessage("Se ha creado un nuevo Employee: " + employee.getName());
 	}
 

@@ -13,143 +13,89 @@ public class StaticData
 	public static final String LOCALUSER = "./keys/data/acc/users.ser";
 	public static final String LOCALMANAGER = "./keys/data/acc/managers.ser";
 	public static final String LOCALCREATOR = "./keys/data/acc/creator.ser";
-	public static final String LOCALPRODUCTS = "./keys/data/products.ser"; // Nueva ubicación para guardar los
+	public static final String LOCALPRODUCTS = "./keys/data/products.ser"; // Nueva ubicación para
+																			// guardar los
 																			// productos
 	public static final String LOG_FILE = "./keys/data/log.txt";
 	public static final String DIRECTORY_INFORM = "./keys/data/acc/inform";
 	public static int encrypNum = 3;
 
-	public ArrayList<Employee> savedUser = new ArrayList<>();
+	public ArrayList<Employee> savedEmployee = new ArrayList<>();
 	public ArrayList<Manager> savedManager = new ArrayList<>();
-	public ArrayList<Boss> savedCreator = new ArrayList<>();
+	public ArrayList<Boss> savedBoss = new ArrayList<>();
 	public ArrayList<Producto> savedProducts = new ArrayList<>(); // Nuevo ArrayList para guardar los
 																	// productos
 	private ArrayList<String> logMessages = new ArrayList<>();
 
-
 	public StaticData()
 	{
 	}
-
-
-
-
-	public ArrayList<Employee> getSavedUser()
-	{
-		return savedUser;
-	}
-
-
-
-
-	public void setSavedUser(ArrayList<Employee> savedUser)
-	{
-		this.savedUser = savedUser;
-	}
-
-
-
 
 	public ArrayList<Manager> getSavedManager()
 	{
 		return savedManager;
 	}
 
-
-
-
 	public void setSavedManager(ArrayList<Manager> savedManager)
 	{
 		this.savedManager = savedManager;
 	}
 
-
-
-
-	public ArrayList<Boss> getSavedCreator()
+	public ArrayList<Boss> getSavedBoss()
 	{
-		return savedCreator;
+		return savedBoss;
 	}
-
-
-
-
-	public void setSavedCreator(ArrayList<Boss> savedCreator)
-	{
-		this.savedCreator = savedCreator;
-	}
-
-
-
 
 	public ArrayList<Producto> getSavedProducts()
 	{
 		return savedProducts;
 	}
 
-
-
-
 	public void setSavedProducts(ArrayList<Producto> savedProducts)
 	{
 		this.savedProducts = savedProducts;
 	}
-
-
-
 
 	public ArrayList<String> getLogMessages()
 	{
 		return logMessages;
 	}
 
-
-
-
 	public void setLogMessages(ArrayList<String> logMessages)
 	{
 		this.logMessages = logMessages;
 	}
 
-
-
-
-	public void getUsers()
+	@SuppressWarnings("unchecked")
+	public void getEmployee()
 	{
 		File file = new File(LOCALUSER);
 
-
 		if (file.exists())
 		{
-
 
 			try
 			{
 				FileInputStream fileIn = new FileInputStream(LOCALUSER);
 				ObjectInputStream objectIn = new ObjectInputStream(fileIn);
-				savedUser = (ArrayList<Employee>) objectIn.readObject();
+				savedEmployee = (ArrayList<Employee>) objectIn.readObject();
 				objectIn.close();
-			}
-			catch (Exception e)
+			} catch (Exception e)
 			{
-				savedUser = new ArrayList<>();
+				savedEmployee = new ArrayList<>();
 			}
 
 		}
 
 	}
 
-
-
-
+	@SuppressWarnings("unchecked")
 	public void getManagers()
 	{
 		File file = new File(LOCALMANAGER);
 
-
 		if (file.exists())
 		{
-
 
 			try
 			{
@@ -157,8 +103,7 @@ public class StaticData
 				ObjectInputStream objectIn = new ObjectInputStream(fileIn);
 				savedManager = (ArrayList<Manager>) objectIn.readObject();
 				objectIn.close();
-			}
-			catch (Exception e)
+			} catch (Exception e)
 			{
 				savedManager = new ArrayList<>();
 			}
@@ -167,45 +112,36 @@ public class StaticData
 
 	}
 
-
-
-
-	public void getCreator()
+	@SuppressWarnings("unchecked")
+	public void getBoss()
 	{
 		File file = new File(LOCALCREATOR);
 
-
 		if (file.exists())
 		{
-
 
 			try
 			{
 				FileInputStream fileIn = new FileInputStream(LOCALCREATOR);
 				ObjectInputStream objectIn = new ObjectInputStream(fileIn);
-				savedCreator = (ArrayList<Boss>) objectIn.readObject();
+				savedBoss = (ArrayList<Boss>) objectIn.readObject();
 				objectIn.close();
-			}
-			catch (Exception e)
+			} catch (Exception e)
 			{
-				savedCreator = new ArrayList<>();
+				savedBoss = new ArrayList<>();
 			}
 
 		}
 
 	}
 
-
-
-
+	@SuppressWarnings("unchecked")
 	public void getProducts()
 	{ // Método para cargar los productos guardados
 		File file = new File(LOCALPRODUCTS);
 
-
 		if (file.exists())
 		{
-
 
 			try
 			{
@@ -213,8 +149,7 @@ public class StaticData
 				ObjectInputStream objectIn = new ObjectInputStream(fileIn);
 				savedProducts = (ArrayList<Producto>) objectIn.readObject();
 				objectIn.close();
-			}
-			catch (Exception e)
+			} catch (Exception e)
 			{
 				savedProducts = new ArrayList<>();
 			}
@@ -223,17 +158,15 @@ public class StaticData
 
 	}
 
-
-
-
 	public void addEmployee(Employee employee)
 	{
-		savedUser.add(employee);
+		if (savedEmployee != null)
+		{
+			savedEmployee = new ArrayList<>();
+		}
+		savedEmployee.add(employee);
 		saveUsers();
 	}
-
-
-
 
 	public void addManager(Manager manager)
 	{
@@ -241,17 +174,11 @@ public class StaticData
 		saveManagers();
 	}
 
-
-
-
 	public void addProduct(Producto producto)
 	{ // Método para agregar un producto y guardarlo
 		savedProducts.add(producto);
 		saveProducts();
 	}
-
-
-
 
 	public void addLogMessage(String message)
 	{
@@ -259,33 +186,24 @@ public class StaticData
 		saveLog();
 	}
 
-
-
-
 	private void saveUsers()
 	{
-
 
 		try
 		{
 			FileOutputStream fileOut = new FileOutputStream(LOCALUSER);
 			ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
-			objectOut.writeObject(savedUser);
+			objectOut.writeObject(savedEmployee);
 			objectOut.close();
-		}
-		catch (IOException e)
+		} catch (IOException e)
 		{
 			e.printStackTrace();
 		}
 
 	}
 
-
-
-
 	private void saveManagers()
 	{
-
 
 		try
 		{
@@ -293,20 +211,15 @@ public class StaticData
 			ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
 			objectOut.writeObject(savedManager);
 			objectOut.close();
-		}
-		catch (IOException e)
+		} catch (IOException e)
 		{
 			e.printStackTrace();
 		}
 
 	}
 
-
-
-
 	private void saveProducts()
 	{ // Método para guardar los productos
-
 
 		try
 		{
@@ -314,20 +227,15 @@ public class StaticData
 			ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
 			objectOut.writeObject(savedProducts);
 			objectOut.close();
-		}
-		catch (IOException e)
+		} catch (IOException e)
 		{
 			e.printStackTrace();
 		}
 
 	}
 
-
-
-
 	private void saveLog()
 	{
-
 
 		try
 		{
@@ -335,10 +243,33 @@ public class StaticData
 			PrintWriter printWriter = new PrintWriter(fileWriter);
 			printWriter.println(logMessages.get(logMessages.size() - 1));
 			printWriter.close();
-		}
-		catch (IOException e)
+		} catch (IOException e)
 		{
 			e.printStackTrace();
+		}
+
+	}
+
+	public void pause(int i) throws InterruptedException
+	{
+
+		Thread.sleep((int) 1000 * i);
+
+	}
+
+	public static void cls()
+	{
+		for (int i = 0; i < 50; i++)
+		{
+			System.out.print("\n\n");
+		}
+
+		try
+		{
+			Thread.sleep(100);
+		} catch (Exception e)
+		{
+			// TODO: handle exception
 		}
 
 	}

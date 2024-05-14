@@ -19,7 +19,6 @@ public class Person implements Serializable
 	protected String eSC;
 	protected String nickname;
 
-
 	public Person(String name, String surname, String email, String phone, String birth, String area)
 	{
 		this.name = name;
@@ -27,21 +26,16 @@ public class Person implements Serializable
 		this.email = email;
 		this.phone = phone;
 
-
 		try
 		{
 			this.birth = LocalDate.parse(birth);
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			System.out.println("***La fecha no es válida***");
 		}
 
 		this.area = area;
 	}
-
-
-
 
 	public Person()
 	{
@@ -51,9 +45,6 @@ public class Person implements Serializable
 		this.phone = "";
 		this.area = "";
 	}
-
-
-
 
 	public Person(String nickname, String eSC2)
 	{
@@ -66,119 +57,92 @@ public class Person implements Serializable
 		this.eSC = eSC2;
 	}
 
-
-
+	public String getESC()
+	{
+		return eSC;
+	}
 
 	public String getName()
 	{
 		return name;
 	}
 
-
-
-
 	public void setName(String name)
 	{
 		this.name = name;
 	}
-
-
-
 
 	public String getSurname()
 	{
 		return surname;
 	}
 
-
-
-
 	public void setSurname(String surname)
 	{
 		this.surname = surname;
 	}
-
-
-
 
 	public String getEmail()
 	{
 		return email;
 	}
 
-
-
-
 	public void setEmail(String email)
 	{
 		this.email = email;
 	}
-
-
-
 
 	public String getPhone()
 	{
 		return phone;
 	}
 
-
-
-
 	public void setPhone(String phone)
 	{
 		this.phone = phone;
 	}
-
-
-
 
 	public LocalDate getBirth()
 	{
 		return birth;
 	}
 
-
-
-
 	public void setBirth(String birth)
 	{
-
 
 		try
 		{
 			this.birth = LocalDate.parse(birth);
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			System.out.println("***La fecha no es válida***");
 		}
 
 	}
 
-
-
-
 	public String getArea()
 	{
 		return area;
 	}
-
-
-
 
 	public void setArea(String area)
 	{
 		this.area = area;
 	}
 
+	public String getNickname()
+	{
+		return nickname;
+	}
 
-
+	public void setNickname(String nickname)
+	{
+		this.nickname = nickname;
+	}
 
 	protected static String encrypt(String intro)
 	{
 		StringBuilder aux = new StringBuilder();
-
 
 		for (int i = 0; i < intro.length(); i++)
 		{
@@ -191,13 +155,9 @@ public class Person implements Serializable
 		return aux.toString();
 	}
 
-
-
-
 	protected static String decrypt(String intro)
 	{
 		StringBuilder resultado = new StringBuilder();
-
 
 		for (int i = 0; i < intro.length(); i++)
 		{
@@ -209,9 +169,6 @@ public class Person implements Serializable
 
 		return resultado.toString();
 	}
-
-
-
 
 	public static Person newPerson()
 	{
@@ -245,17 +202,12 @@ public class Person implements Serializable
 		return new Person(name, surname, email, phone, birth, area);
 	}
 
-
-
-
 	protected static String getText(String text, String pattern)
 	{
-
 
 		do
 		{
 			text = Entrada.cadena();
-
 
 			if (!text.matches(pattern))
 			{
@@ -266,9 +218,6 @@ public class Person implements Serializable
 
 		return text;
 	}
-
-
-
 
 	public static Person newLoginUser()
 	{
