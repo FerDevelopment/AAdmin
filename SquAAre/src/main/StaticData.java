@@ -1,142 +1,346 @@
+// Modificación de la clase StaticData
 
 package main;
 
 import java.io.*;
-import java.util.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class StaticData
 {
 
-	/*
-	 * final private String IDLOGIN = null; final private String IDSONG = null;
-	 * public Boolean SSongServer = false; public Boolean SLoginServer = false;
-	 */
-	public ArrayList<User> savedUser = null;
-	public ArrayList<Creator> savedCreator = null;
-	public Boolean SLoginUser = false;
-	public Boolean SLoginCreator = false;
-	public Boolean SSong = false;
-	final public static String LOCALMUSIC = "./import/music/";
-	final public static String LOCALINFORM = "";
-	final public static String LOCALUSER = "./keys/data/acc/users.ser";
-	final public static String LOCALUSERINFO = "./keys/data/acc/users.ser";
-	final public static String LOCALCREATOS = "./keys/data/acc/creator.ser";
-	final public static String DIRECTORY_INFORM = "./keys/data/inform/";
-	final public static String LOCALUSERBK = "./keys/backup/acc/users.ser";
-	final public static String LOCALCREATOSBK = "./keys/backup/acc/creator.ser";
-	final public static String BARRA = "-------------------------";
-	public static Integer ecn = 3;
+	public static final String BARRA = "-------------------------";
+	public static final String LOCALUSER = "./keys/data/acc/users.ser";
+	public static final String LOCALMANAGER = "./keys/data/acc/managers.ser";
+	public static final String LOCALCREATOR = "./keys/data/acc/creator.ser";
+	public static final String LOCALPRODUCTS = "./keys/data/products.ser"; // Nueva ubicación para guardar los
+																			// productos
+	public static final String LOG_FILE = "./keys/data/log.txt";
+	public static final String DIRECTORY_INFORM = "./keys/data/acc/inform";
+	public static int encrypNum = 3;
+
+	public ArrayList<Employee> savedUser = new ArrayList<>();
+	public ArrayList<Manager> savedManager = new ArrayList<>();
+	public ArrayList<Boss> savedCreator = new ArrayList<>();
+	public ArrayList<Producto> savedProducts = new ArrayList<>(); // Nuevo ArrayList para guardar los
+																	// productos
+	private ArrayList<String> logMessages = new ArrayList<>();
+
 
 	public StaticData()
 	{
-
 	}
 
-	@SuppressWarnings("unchecked")
-	protected void getUsers()
+
+
+
+	public ArrayList<Employee> getSavedUser()
+	{
+		return savedUser;
+	}
+
+
+
+
+	public void setSavedUser(ArrayList<Employee> savedUser)
+	{
+		this.savedUser = savedUser;
+	}
+
+
+
+
+	public ArrayList<Manager> getSavedManager()
+	{
+		return savedManager;
+	}
+
+
+
+
+	public void setSavedManager(ArrayList<Manager> savedManager)
+	{
+		this.savedManager = savedManager;
+	}
+
+
+
+
+	public ArrayList<Boss> getSavedCreator()
+	{
+		return savedCreator;
+	}
+
+
+
+
+	public void setSavedCreator(ArrayList<Boss> savedCreator)
+	{
+		this.savedCreator = savedCreator;
+	}
+
+
+
+
+	public ArrayList<Producto> getSavedProducts()
+	{
+		return savedProducts;
+	}
+
+
+
+
+	public void setSavedProducts(ArrayList<Producto> savedProducts)
+	{
+		this.savedProducts = savedProducts;
+	}
+
+
+
+
+	public ArrayList<String> getLogMessages()
+	{
+		return logMessages;
+	}
+
+
+
+
+	public void setLogMessages(ArrayList<String> logMessages)
+	{
+		this.logMessages = logMessages;
+	}
+
+
+
+
+	public void getUsers()
 	{
 		File file = new File(LOCALUSER);
 
-		if (file.exists())
-		{
-
-			try
-			{
-				FileInputStream fileIn = new FileInputStream(LOCALUSER);
-
-				try
-				{
-					ObjectInputStream objectIn = new ObjectInputStream(fileIn);
-					savedUser = (ArrayList<User>) objectIn.readObject();
-					objectIn.close();
-				} catch (Exception e)
-				{
-					savedUser = new ArrayList<User>();
-				}
-
-			} catch (Exception ex)
-			{
-				ex.printStackTrace();
-			}
-
-		}
-		else
-		{
-
-			try
-			{
-				file.createNewFile();
-			} catch (IOException e)
-			{
-				e.printStackTrace();
-			}
-
-		}
-
-		if (savedUser != null)
-		{
-			Collections.sort(savedUser);
-		}
-
-	}
-
-	@SuppressWarnings("unchecked")
-	protected void getCreator()
-	{
-		File file = new File(LOCALCREATOS);
 
 		if (file.exists())
 		{
 
+
 			try
 			{
 				FileInputStream fileIn = new FileInputStream(LOCALUSER);
-
-				try
-				{
-					ObjectInputStream objectIn = new ObjectInputStream(fileIn);
-					savedCreator = (ArrayList<Creator>) objectIn.readObject();
-					objectIn.close();
-				} catch (Exception e)
-				{
-					savedCreator = new ArrayList<Creator>();
-				}
-
-			} catch (Exception ex)
+				ObjectInputStream objectIn = new ObjectInputStream(fileIn);
+				savedUser = (ArrayList<Employee>) objectIn.readObject();
+				objectIn.close();
+			}
+			catch (Exception e)
 			{
-				ex.printStackTrace();
+				savedUser = new ArrayList<>();
 			}
 
 		}
-		else
+
+	}
+
+
+
+
+	public void getManagers()
+	{
+		File file = new File(LOCALMANAGER);
+
+
+		if (file.exists())
 		{
+
 
 			try
 			{
-				file.createNewFile();
-			} catch (IOException e)
+				FileInputStream fileIn = new FileInputStream(LOCALMANAGER);
+				ObjectInputStream objectIn = new ObjectInputStream(fileIn);
+				savedManager = (ArrayList<Manager>) objectIn.readObject();
+				objectIn.close();
+			}
+			catch (Exception e)
 			{
-				e.printStackTrace();
+				savedManager = new ArrayList<>();
 			}
 
 		}
 
-		if (savedCreator != null)
+	}
+
+
+
+
+	public void getCreator()
+	{
+		File file = new File(LOCALCREATOR);
+
+
+		if (file.exists())
 		{
-			Collections.sort(savedUser);
+
+
+			try
+			{
+				FileInputStream fileIn = new FileInputStream(LOCALCREATOR);
+				ObjectInputStream objectIn = new ObjectInputStream(fileIn);
+				savedCreator = (ArrayList<Boss>) objectIn.readObject();
+				objectIn.close();
+			}
+			catch (Exception e)
+			{
+				savedCreator = new ArrayList<>();
+			}
+
 		}
 
 	}
 
-	public void pause(int seg) throws InterruptedException
-	{
-		Thread.sleep(seg * 1000);
+
+
+
+	public void getProducts()
+	{ // Método para cargar los productos guardados
+		File file = new File(LOCALPRODUCTS);
+
+
+		if (file.exists())
+		{
+
+
+			try
+			{
+				FileInputStream fileIn = new FileInputStream(LOCALPRODUCTS);
+				ObjectInputStream objectIn = new ObjectInputStream(fileIn);
+				savedProducts = (ArrayList<Producto>) objectIn.readObject();
+				objectIn.close();
+			}
+			catch (Exception e)
+			{
+				savedProducts = new ArrayList<>();
+			}
+
+		}
+
 	}
 
-	public static void cls()
+
+
+
+	public void addEmployee(Employee employee)
 	{
-		System.out.print("\033[H\033[2J");
-		System.out.flush();
+		savedUser.add(employee);
+		saveUsers();
+	}
+
+
+
+
+	public void addManager(Manager manager)
+	{
+		savedManager.add(manager);
+		saveManagers();
+	}
+
+
+
+
+	public void addProduct(Producto producto)
+	{ // Método para agregar un producto y guardarlo
+		savedProducts.add(producto);
+		saveProducts();
+	}
+
+
+
+
+	public void addLogMessage(String message)
+	{
+		logMessages.add(LocalDate.now() + " - " + message);
+		saveLog();
+	}
+
+
+
+
+	private void saveUsers()
+	{
+
+
+		try
+		{
+			FileOutputStream fileOut = new FileOutputStream(LOCALUSER);
+			ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+			objectOut.writeObject(savedUser);
+			objectOut.close();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+
+	}
+
+
+
+
+	private void saveManagers()
+	{
+
+
+		try
+		{
+			FileOutputStream fileOut = new FileOutputStream(LOCALMANAGER);
+			ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+			objectOut.writeObject(savedManager);
+			objectOut.close();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+
+	}
+
+
+
+
+	private void saveProducts()
+	{ // Método para guardar los productos
+
+
+		try
+		{
+			FileOutputStream fileOut = new FileOutputStream(LOCALPRODUCTS);
+			ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+			objectOut.writeObject(savedProducts);
+			objectOut.close();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+
+	}
+
+
+
+
+	private void saveLog()
+	{
+
+
+		try
+		{
+			FileWriter fileWriter = new FileWriter(LOG_FILE, true);
+			PrintWriter printWriter = new PrintWriter(fileWriter);
+			printWriter.println(logMessages.get(logMessages.size() - 1));
+			printWriter.close();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+
 	}
 
 }

@@ -1,41 +1,37 @@
 
 package main;
 
-import java.util.*;
-
-import com.comun.Entrada;
-import com.comun.Printer;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Main implements Runnable
 {
 
 	private static StaticData data;
-	private static OutTextRun text;
-	private static User dummyUser;
+	private static Scanner scanner = new Scanner(System.in);
+
 
 	public static void main(String[] args)
 	{
-		text = new OutTextRun();
+		data = new StaticData();
+		startServer();
 		first();
-		end();
 	}
 
-	private static void end()
+
+
+
+	private static void startServer()
 	{
-		if (data.savedCreator != null)
-		{
-
-			Collections.sort(data.savedCreator);
-			data.savedCreator.clear();
-		}
-		if (data.savedUser != null)
-		{
-
-			Collections.sort(data.savedUser);
-			data.savedCreator.clear();
-		}
-
+		System.out.println("Iniciando servidor...");
+		data.getUsers();
+		data.getManagers();
+		data.getCreator();
+		System.out.println("Servidor iniciado\n");
 	}
+
+
+
 
 	@Override
 	public void run()
@@ -43,251 +39,311 @@ public class Main implements Runnable
 
 	}
 
-	private static void checkStaticDataUser()
-	{
 
-		if (data == null || data.SLoginUser == null)
-		{
 
-			Thread hilo1 = new Thread(text);
-			hilo1.start();
-
-			Thread hilo2 = new Thread(new Runnable()
-			{
-
-				public void run()
-				{
-
-					data = new StaticData();
-					data.getUsers();
-				}
-			});
-
-			hilo2.start();
-
-			try
-			{
-				hilo2.join();
-			} catch (Exception e)
-			{
-				System.out.println("XD malito");
-			}
-			text.stop();
-
-			try
-			{
-				hilo1.join();
-				StaticData.cls();
-				data.pause(2);
-
-			} catch (InterruptedException e)
-			{
-
-				e.printStackTrace();
-			}
-			System.out.println("\nSevidor iniciado");
-			try
-			{
-				data.pause(2);
-			} catch (Exception e)
-			{
-				System.out.println("Pasusa malita");
-			}
-			StaticData.cls();
-
-		}
-
-	}
-
-	private static void checkStaticDataCreator()
-	{
-		if (data == null || data.SLoginCreator == null)
-		{
-
-			Thread hilo1 = new Thread(text);
-			hilo1.start();
-
-			Thread hilo2 = new Thread(new Runnable()
-			{
-
-				public void run()
-				{
-
-					data = new StaticData();
-					data.getCreator();
-				}
-			});
-
-			hilo2.start();
-
-			try
-			{
-				hilo2.join();
-			} catch (Exception e)
-			{
-				System.out.println("XD malito");
-			}
-			text.stop();
-
-			try
-			{
-				hilo1.join();
-				StaticData.cls();
-				data.pause(2);
-
-			} catch (InterruptedException e)
-			{
-
-				e.printStackTrace();
-			}
-			System.out.println("\nSevidor iniciado");
-			try
-			{
-				data.pause(2);
-			} catch (Exception e)
-			{
-				System.out.println("Pasusa malita");
-			}
-			StaticData.cls();
-
-		}
-
-	}
 
 	private static void first()
 	{
+		System.out.println(StaticData.BARRA + " ¿Qué tipo de usuario eres? " + StaticData.BARRA);
+		System.out.println("1. Boss");
+		System.out.println("2. Manager");
+		System.out.println("3. Employee");
+		int userType = Integer.parseInt(scanner.nextLine());
 
-		System.out.println("¿Eres usuario o creador?");
-		System.out.println("1. Usuario");
-		System.out.println("2. Creador");
-		int userType = Entrada.entero();
-		if (userType == 1)
+
+		switch (userType)
 		{
-			startUser();
+			case 1:
+				startBossSession();
+				break;
+
+
+
+			case 2:
+				startManagerSession();
+				break;
+
+
+
+			case 3:
+				startEmployeeSession();
+				break;
+
+
+
+			default:
+				System.out.println("***Opción no válida***");
+				first();
+				break;
 		}
-		else if (userType == 2)
-		{
-			startCreator();
-		}
-		else
-		{
-			Printer.print("\n***Opcion no valida***\n");
-			first();
-		}
+
 	}
 
-	private static void startCreator()
+
+
+
+	private static void startBossSession()
 	{
-		checkStaticDataCreator();
-		int option = 0;
-		System.out.println(StaticData.BARRA + " Creador " + StaticData.BARRA);
-		System.out.println("\n¿Quieres iniciar sesión o registrarte?");
-		System.out.println("1. Iniciar sesión");
-		System.out.println("2. Registrarte");
-		System.out.println("3. volver al menu de inicio");
+
+		int option;
+
 
 		do
 		{
-			option = Entrada.entero();
+			System.out.println(StaticData.BARRA + " Boss " + StaticData.BARRA);
+			System.out.println("\n¿Qué deseas hacer?");
+			System.out.println("1. Crear Manager");
+			System.out.println("2. Crear Employee");
+			System.out.println("3. Modificar Manager");
+			System.out.println("4. Modificar Employee");
+			System.out.println("5. Ver informe de actividad");
+			System.out.println("6. Salir");
+			option = Integer.parseInt(scanner.nextLine());
 
-			if (option == 1)
+
+			switch (option)
 			{
-				loginUser(data.savedUser);
-			}
-			else if (option == 2)
-			{
-				registerUser();
-			}
-			else if (option == 3)
-			{
-				first();
-			}
-			else
-			{
-				System.out.println("Opción no válida");
+				case 1:
+					createManager();
+					break;
+
+
+
+				case 2:
+					createEmployee();
+					break;
+
+
+
+				case 3:
+					modifyManager();
+					break;
+
+
+
+				case 4:
+					modifyEmployee();
+					break;
+
+
+
+				case 5:
+					viewActivityReport();
+					break;
+
+
+
+				case 6:
+					System.exit(0);
+					break;
+
+
+
+				default:
+					System.out.println("Opción no válida");
+					break;
 			}
 
-		} while (option < 1 || option > 3);
+		} while (option != 6);
+
 	}
 
-	private static void startUser()
+
+
+
+	private static void createManager()
 	{
-		checkStaticDataUser();
-		int option = 0;
-		System.out.println(StaticData.BARRA + " Usuario " + StaticData.BARRA);
-		System.out.println("\n¿Quieres iniciar sesión o registrarte?");
-		System.out.println("1. Iniciar sesión");
-		System.out.println("2. Registrarte");
-		System.out.println("3. volver al menu de inicio");
+		System.out.println("Introduce los datos del nuevo Manager:");
+		System.out.print("Nombre: ");
+		String name = scanner.nextLine();
+		System.out.print("Apellido: ");
+		String surname = scanner.nextLine();
+		System.out.print("Email: ");
+		String email = scanner.nextLine();
+		System.out.print("Teléfono: ");
+		String phone = scanner.nextLine();
+		System.out.print("Fecha de nacimiento (aaaa-mm-dd): ");
+		String birth = scanner.nextLine();
+		System.out.print("Área de trabajo: ");
+		String area = scanner.nextLine();
 
-		do
-		{
-			option = Entrada.entero();
-
-			if (option == 1)
-			{
-				loginUser(data.savedUser);
-			}
-			else if (option == 2)
-			{
-				registerUser();
-			}
-			else if (option == 3)
-			{
-				first();
-			}
-			else
-			{
-				System.out.println("Opción no válida");
-			}
-
-		} while (option < 1 || option > 3);
-
+		Boss boss = data.savedCreator.get(0);
+		boss.createManager(data, name, surname, email, phone, birth, area);
+		System.out.println("Manager creado correctamente.");
 	}
 
-	private static void registerUser()
-	{
-		User new_ = User.newUser();
-		data.savedUser.add(new_);
 
-		try
-		{
-			data.pause(2);
-		} catch (InterruptedException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println(" * * * Registro completado * * * ");
-		startUser();
+
+
+	private static void createEmployee()
+	{
+		System.out.println("Introduce los datos del nuevo Employee:");
+		System.out.print("Nombre: ");
+		String name = scanner.nextLine();
+		System.out.print("Apellido: ");
+		String surname = scanner.nextLine();
+		System.out.print("Email: ");
+		String email = scanner.nextLine();
+		System.out.print("Teléfono: ");
+		String phone = scanner.nextLine();
+		System.out.print("Fecha de nacimiento (aaaa-mm-dd): ");
+		String birth = scanner.nextLine();
+		System.out.print("Área de trabajo: ");
+		String area = scanner.nextLine();
+
+		Boss boss = data.savedCreator.get(0);
+		boss.createEmployee(data, name, surname, email, phone, birth, area);
+		System.out.println("Employee creado correctamente.");
 	}
 
-	private static void loginUser(ArrayList<User> userList)
+
+
+
+	private static void modifyManager()
 	{
-		dummyUser = User.newLoginUser();
+		System.out.println("Introduce el nombre del Manager que deseas modificar:");
+		String name = scanner.nextLine();
 
-		int index = Collections.binarySearch(userList, dummyUser);
+		Manager manager = getManagerByName(name);
 
-		if (index >= 0)
+
+		if (manager != null)
 		{
-			dummyUser = userList.get(index);
+			System.out.println("Introduce los nuevos datos del Manager:");
+			System.out.print("Nombre: ");
+			String newName = scanner.nextLine();
+			System.out.print("Apellido: ");
+			String surname = scanner.nextLine();
+			System.out.print("Email: ");
+			String email = scanner.nextLine();
+			System.out.print("Teléfono: ");
+			String phone = scanner.nextLine();
+			System.out.print("Fecha de nacimiento (aaaa-mm-dd): ");
+			String birth = scanner.nextLine();
+			System.out.print("Área de trabajo: ");
+			String area = scanner.nextLine();
 
+			Boss boss = data.savedCreator.get(0);
+			boss.modifyManager(data, manager, newName, surname, email, phone, birth, area);
+			System.out.println("Manager modificado correctamente.");
 		}
 		else
 		{
-			Printer.print("\n\n***Login fallido, intentelo otra vez***");
-			try
+			System.out.println("Manager no encontrado.");
+		}
+
+	}
+
+
+
+
+	private static void modifyEmployee()
+	{
+		System.out.println("Introduce el nombre del Employee que deseas modificar:");
+		String name = scanner.nextLine();
+
+		Employee employee = getEmployeeByName(name);
+
+
+		if (employee != null)
+		{
+			System.out.println("Introduce los nuevos datos del Employee:");
+			System.out.print("Nombre: ");
+			String newName = scanner.nextLine();
+			System.out.print("Apellido: ");
+			String surname = scanner.nextLine();
+			System.out.print("Email: ");
+			String email = scanner.nextLine();
+			System.out.print("Teléfono: ");
+			String phone = scanner.nextLine();
+			System.out.print("Fecha de nacimiento (aaaa-mm-dd): ");
+			String birth = scanner.nextLine();
+			System.out.print("Área de trabajo: ");
+			String area = scanner.nextLine();
+
+			Boss boss = data.savedCreator.get(0);
+			boss.modifyEmployee(data, employee, newName, surname, email, phone, birth, area);
+			System.out.println("Employee modificado correctamente.");
+		}
+		else
+		{
+			System.out.println("Employee no encontrado.");
+		}
+
+	}
+
+
+
+
+	private static Manager getManagerByName(String name)
+	{
+
+
+		for (Manager manager : data.savedManager)
+		{
+
+
+			if (manager.getName().equalsIgnoreCase(name))
 			{
-				data.pause(2);
-			} catch (Exception e)
-			{
-				// TODO: handle exception
-			} finally
-			{
-				loginUser(userList);
+				return manager;
 			}
 
 		}
 
+		return null;
 	}
+
+
+
+
+	private static Employee getEmployeeByName(String name)
+	{
+
+
+		for (Employee employee : data.savedUser)
+		{
+
+
+			if (employee.getName().equalsIgnoreCase(name))
+			{
+				return employee;
+			}
+
+		}
+
+		return null;
+	}
+
+
+
+
+	private static void viewActivityReport()
+	{
+		System.out.println("Informe de actividad:");
+		ArrayList<String> logMessages = data.getLogMessages();
+
+
+		for (String message : logMessages)
+		{
+			System.out.println(message);
+		}
+
+	}
+
+
+
+
+	private static void startManagerSession()
+	{
+		// Implementación de la sesión del Manager
+	}
+
+
+
+
+	private static void startEmployeeSession()
+	{
+		// Implementación de la sesión del Employee
+	}
+
 }

@@ -14,7 +14,7 @@ public class SerializationExample
 	{
 		// Crear varias instancias de Person
 		List<Person> people = new ArrayList<>();
-		people.add(new User());
+		people.add(null);
 	
 
 
