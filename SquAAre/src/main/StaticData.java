@@ -10,9 +10,9 @@ public class StaticData
 {
 
 	public static final String BARRA = "-------------------------";
-	public static final String LOCALUSER = "./keys/data/acc/users.ser";
+	public static final String LOCALEMPLOYEE = "./keys/data/acc/employees.ser";
 	public static final String LOCALMANAGER = "./keys/data/acc/managers.ser";
-	public static final String LOCALCREATOR = "./keys/data/acc/creator.ser";
+	public static final String LOCALBOSS = "./keys/data/acc/bosses.ser";
 	public static final String LOCALPRODUCTS = "./keys/data/products.ser"; // Nueva ubicación para
 																			// guardar los
 																			// productos
@@ -69,14 +69,14 @@ public class StaticData
 	@SuppressWarnings("unchecked")
 	public void getEmployee()
 	{
-		File file = new File(LOCALUSER);
+		File file = new File(LOCALEMPLOYEE);
 
 		if (file.exists())
 		{
 
 			try
 			{
-				FileInputStream fileIn = new FileInputStream(LOCALUSER);
+				FileInputStream fileIn = new FileInputStream(LOCALEMPLOYEE);
 				ObjectInputStream objectIn = new ObjectInputStream(fileIn);
 				savedEmployee = (ArrayList<Employee>) objectIn.readObject();
 				objectIn.close();
@@ -115,14 +115,14 @@ public class StaticData
 	@SuppressWarnings("unchecked")
 	public void getBoss()
 	{
-		File file = new File(LOCALCREATOR);
+		File file = new File(LOCALBOSS);
 
 		if (file.exists())
 		{
 
 			try
 			{
-				FileInputStream fileIn = new FileInputStream(LOCALCREATOR);
+				FileInputStream fileIn = new FileInputStream(LOCALBOSS);
 				ObjectInputStream objectIn = new ObjectInputStream(fileIn);
 				savedBoss = (ArrayList<Boss>) objectIn.readObject();
 				objectIn.close();
@@ -191,7 +191,7 @@ public class StaticData
 
 		try
 		{
-			FileOutputStream fileOut = new FileOutputStream(LOCALUSER);
+			FileOutputStream fileOut = new FileOutputStream(LOCALEMPLOYEE);
 			ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
 			objectOut.writeObject(savedEmployee);
 			objectOut.close();

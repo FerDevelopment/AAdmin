@@ -2,6 +2,8 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.Collections;
+
 import com.comun.*;
 
 public class Main implements Runnable
@@ -9,6 +11,10 @@ public class Main implements Runnable
 
 	private static StaticData data;
 	private static OutTextRun text;
+	private static Boss actualBoss;
+	private static Manager actualManager;
+	private static Employee actualEmploy;
+
 
 	public static void main(String[] args)
 	{
@@ -16,6 +22,9 @@ public class Main implements Runnable
 		first();
 
 	}
+
+
+
 
 	private static void startServer(String option)
 	{
@@ -31,36 +40,46 @@ public class Main implements Runnable
 			public void run()
 			{
 				StaticData.cls();
+
+
 				if (option.equals("boss"))
 				{
 					data.getBoss();
+					data.getManagers();
+					data.getEmployee();
 
 				}
 				else if (option.equals("manager"))
 				{
 					data.getManagers();
+					data.getEmployee();
 
 				}
 				else if (option.equals("employee"))
 				{
 					data.getEmployee();
+					data.getProducts();
 
 				}
+
 			}
 
 		});
 
 		hilo2.start();
 
+
 		try
 		{
 			hilo2.join();
-		} catch (Exception e)
+		}
+		catch (Exception e)
 		{
 			System.out.println("XD malito");
 		}
 
 		text.stop();
+
 
 		try
 		{
@@ -68,7 +87,8 @@ public class Main implements Runnable
 			StaticData.cls();
 			data.pause(2);
 
-		} catch (InterruptedException e)
+		}
+		catch (InterruptedException e)
 		{
 
 			e.printStackTrace();
@@ -76,10 +96,12 @@ public class Main implements Runnable
 
 		System.out.println("\nSevidor iniciado");
 
+
 		try
 		{
 			data.pause(2);
-		} catch (Exception e)
+		}
+		catch (Exception e)
 		{
 			System.out.println("Pasusa malita");
 		}
@@ -87,11 +109,17 @@ public class Main implements Runnable
 		StaticData.cls();
 	}
 
+
+
+
 	@Override
 	public void run()
 	{
 
 	}
+
+
+
 
 	private static void first()
 	{
@@ -101,6 +129,7 @@ public class Main implements Runnable
 		System.out.print("3. Employee\n-->");
 		int userType = Entrada.entero();
 
+
 		switch (userType)
 		{
 			case 1:
@@ -108,15 +137,21 @@ public class Main implements Runnable
 				startBossSession();
 				break;
 
+
+
 			case 2:
 				startServer("manager");
 				startManagerSession();
 				break;
 
+
+
 			case 3:
 				startServer("employee");
 				startEmployeeSession();
 				break;
+
+
 
 			default:
 				System.out.println("***Opción no válida***");
@@ -126,10 +161,15 @@ public class Main implements Runnable
 
 	}
 
+
+
+
 	private static void startBossSession()
 	{
 
+		actualBoss = loginBoss(data.savedBoss);
 		int option;
+
 
 		do
 		{
@@ -143,32 +183,45 @@ public class Main implements Runnable
 			System.out.println("6. Salir");
 			option = Entrada.entero();
 
+
 			switch (option)
 			{
 				case 1:
-					createManager();
+					actualBoss.createManager(data);
 					break;
 
+
+
 				case 2:
-					createEmployee();
+					actualBoss.createEmployee(data);
 					break;
+
+
 
 				case 3:
 					modifyManager();
 					break;
 
+
+
 				case 4:
 					modifyEmployee();
 					break;
+
+
 
 				case 5:
 					viewActivityReport();
 					break;
 
+
+
 				case 6:
 					end();
 					first();
 					break;
+
+
 
 				default:
 					System.out.println("Opción no válida");
@@ -179,53 +232,82 @@ public class Main implements Runnable
 
 	}
 
+
+
+
+	private static Boss loginBoss(ArrayList<Boss> bossList)
+	{
+		System.out.println(
+				"\n\n" + StaticData.BARRA + " Inicio de sesión del Boss " + StaticData.BARRA + "\n\n");
+		System.out.println("Introduzca su nombre de usuario (Nickname): ");
+		String nickname = Entrada.cadena();
+		System.out.println("\nAhora escriba su contraseña: ");
+		String dSC = Entrada.cadena();
+		String eSC = Person.encrypt(dSC);
+		dSC = "";
+
+
+		for (Boss boss : bossList)
+		{
+
+
+			if (boss.getNickname().equals(nickname) && boss.getESC().equals(eSC))
+			{
+				return boss;
+			}
+
+		}
+
+		System.out.println("\n\n***Login fallido, intente nuevamente***\n\n");
+		return null;
+	}
+
+
+
+
+	private static Manager loginManager(ArrayList<Manager> managerList)
+	{
+		System.out.println(
+				"\n\n" + StaticData.BARRA + " Inicio de sesión del Manager " + StaticData.BARRA + "\n\n");
+		System.out.println("Introduzca su nombre de usuario (Nickname): ");
+		String nickname = Entrada.cadena();
+		System.out.println("\nAhora escriba su contraseña: ");
+		String dSC = Entrada.cadena();
+		String eSC = Person.encrypt(dSC);
+		dSC = "";
+
+
+		if (managerList == null)
+		{
+			Printer.print("Ningun Manager está registrado, hable con su administrador");
+			return null;
+		}
+
+
+		for (Manager manager : managerList)
+		{
+
+
+			if (manager.getNickname().equals(nickname) && manager.getESC().equals(eSC))
+			{
+				return manager;
+			}
+
+		}
+
+		System.out.println("\n\n***Login fallido, intente nuevamente***\n\n");
+		return null;
+	}
+
+
+
+
 	private static void end()
 	{
 		// TODO Auto-generated method stub
 
 	}
 
-	private static void createManager()
-	{
-		System.out.println("Introduce los datos del nuevo Manager:");
-		System.out.print("Nombre: ");
-		String name = Entrada.cadena();
-		System.out.print("Apellido: ");
-		String surname = Entrada.cadena();
-		System.out.print("Email: ");
-		String email = Entrada.cadena();
-		System.out.print("Teléfono: ");
-		String phone = Entrada.cadena();
-		System.out.print("Fecha de nacimiento (aaaa-mm-dd): ");
-		String birth = Entrada.cadena();
-		System.out.print("Área de trabajo: ");
-		String area = Entrada.cadena();
-
-		Boss boss = new Boss();
-		boss.createManager(data, name, surname, email, phone, birth, area);
-		System.out.println("Manager creado correctamente.");
-	}
-
-	private static void createEmployee()
-	{
-		System.out.println("Introduce los datos del nuevo Employee:");
-		System.out.print("Nombre: ");
-		String name = Entrada.cadena();
-		System.out.print("Apellido: ");
-		String surname = Entrada.cadena();
-		System.out.print("Email: ");
-		String email = Entrada.cadena();
-		System.out.print("Teléfono: ");
-		String phone = Entrada.cadena();
-		System.out.print("Fecha de nacimiento (aaaa-mm-dd): ");
-		String birth = Entrada.cadena();
-		System.out.print("Área de trabajo: ");
-		String area = Entrada.cadena();
-
-		Boss boss = new Boss();
-		boss.createEmployee(data, name, surname, email, phone, birth, area);
-		System.out.println("Employee creado correctamente.");
-	}
 
 	private static void modifyManager()
 	{
@@ -233,6 +315,7 @@ public class Main implements Runnable
 		String name = Entrada.cadena();
 
 		Manager manager = getManagerByName(name);
+
 
 		if (manager != null)
 		{
@@ -250,7 +333,7 @@ public class Main implements Runnable
 			System.out.print("Área de trabajo: ");
 			String area = Entrada.cadena();
 
-			Boss boss= new Boss();
+			Boss boss = new Boss();
 			boss.modifyManager(data, manager, newName, surname, email, phone, birth, area);
 			System.out.println("Manager modificado correctamente.");
 		}
@@ -261,12 +344,16 @@ public class Main implements Runnable
 
 	}
 
+
+
+
 	private static void modifyEmployee()
 	{
 		System.out.println("Introduce el nombre del Employee que deseas modificar:");
 		String name = Entrada.cadena();
 
 		Employee employee = getEmployeeByName(name);
+
 
 		if (employee != null)
 		{
@@ -284,7 +371,7 @@ public class Main implements Runnable
 			System.out.print("Área de trabajo: ");
 			String area = Entrada.cadena();
 
-			Boss boss= new Boss();
+			Boss boss = new Boss();
 			boss.modifyEmployee(data, employee, newName, surname, email, phone, birth, area);
 			System.out.println("Employee modificado correctamente.");
 		}
@@ -295,11 +382,16 @@ public class Main implements Runnable
 
 	}
 
+
+
+
 	private static Manager getManagerByName(String name)
 	{
 
+
 		for (Manager manager : data.savedManager)
 		{
+
 
 			if (manager.getName().equalsIgnoreCase(name))
 			{
@@ -311,11 +403,16 @@ public class Main implements Runnable
 		return null;
 	}
 
+
+
+
 	private static Employee getEmployeeByName(String name)
 	{
 
+
 		for (Employee employee : data.savedEmployee)
 		{
+
 
 			if (employee.getName().equalsIgnoreCase(name))
 			{
@@ -327,10 +424,14 @@ public class Main implements Runnable
 		return null;
 	}
 
+
+
+
 	private static void viewActivityReport()
 	{
 		System.out.println("Informe de actividad:");
 		ArrayList<String> logMessages = data.getLogMessages();
+
 
 		for (String message : logMessages)
 		{
@@ -339,11 +440,15 @@ public class Main implements Runnable
 
 	}
 
+
+
+
 	private static void startManagerSession()
 	{
 
 		int option = 0;
 		Manager currentManager = null;
+
 
 		do
 		{
@@ -354,6 +459,7 @@ public class Main implements Runnable
 
 			option = Entrada.entero();
 
+
 			switch (option)
 			{
 				case 1:
@@ -363,19 +469,31 @@ public class Main implements Runnable
 						managerMenu(currentManager);
 					}
 					break;
+
+
+
 				case 2:
 					first();
 					break;
+
+
+
 				default:
 					System.out.println("Opción no válida");
 					break;
 			}
+
 		} while (option < 1 || option > 2);
+
 	}
+
+
+
 
 	private static void managerMenu(Manager currentManager)
 	{
 		int option = 0;
+
 
 		do
 		{
@@ -388,30 +506,49 @@ public class Main implements Runnable
 
 			option = Entrada.entero();
 
+
 			switch (option)
 			{
 				case 1:
 					createEmployee(currentManager);
 					break;
+
+
+
 				case 2:
 					modifyEmployee();
 					break;
+
+
+
 				case 3:
 					viewActivityReport();
 					break;
+
+
+
 				case 4:
 					System.out.println("\nCerrando sesión del Manager...");
 					return;
+
+
+
 				default:
 					System.out.println("Opción no válida");
 					break;
 			}
+
 		} while (option != 4);
+
 	}
+
+
+
 
 	private static void createEmployee(Manager currentManager)
 	{
 		Employee newEmployee = Employee.newEmployee();
+
 
 		if (newEmployee != null)
 		{
@@ -422,7 +559,11 @@ public class Main implements Runnable
 		{
 			System.out.println("\n*** Error al crear el nuevo empleado ***\n");
 		}
+
 	}
+
+
+
 
 	private static void startEmployeeSession()
 	{
