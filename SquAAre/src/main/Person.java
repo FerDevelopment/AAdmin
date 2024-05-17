@@ -3,6 +3,7 @@ package main;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import com.comun.*;
 
@@ -230,5 +231,21 @@ public class Person implements Serializable
 		dSC = "";
 		return new Person(nickname, eSC);
 	}
+	public static void login(ArrayList<Person>pepole) {
+		
+		 Printer.print("Introduzca su NickName: ");
+	        String nickname = Entrada.cadena();
+	        Printer.print("Introduzca su contraseña: ");
+	        String password = Entrada.cadena();
+	        String eSC = encrypt(password);
 
-}
+	        for (Person person : people) {
+	            if (person.getNickname().equals(nickname) && person.getESC().equals(eSC)) {
+	                Printer.print("Inicio de sesión exitoso.\n");
+	                return;
+	            }
+	        }
+	        Printer.print("Nickname o contraseña incorrectos.\n");
+	    }
+	}
+
