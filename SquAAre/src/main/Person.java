@@ -7,8 +7,7 @@ import java.util.ArrayList;
 
 import com.comun.*;
 
-public class Person implements Serializable
-{
+public class Person implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	protected String name;
@@ -20,26 +19,22 @@ public class Person implements Serializable
 	protected String eSC;
 	protected String nickname;
 
-	public Person(String name, String surname, String email, String phone, String birth, String area)
-	{
+	public Person(String name, String surname, String email, String phone, String birth, String area) {
 		this.name = name;
 		this.surname = surname;
 		this.email = email;
 		this.phone = phone;
 
-		try
-		{
+		try {
 			this.birth = LocalDate.parse(birth);
-		} catch (Exception e)
-		{
+		} catch (Exception e) {
 			System.out.println("***La fecha no es válida***");
 		}
 
 		this.area = area;
 	}
 
-	public Person()
-	{
+	public Person() {
 		this.name = "";
 		this.surname = "";
 		this.email = "";
@@ -47,8 +42,7 @@ public class Person implements Serializable
 		this.area = "";
 	}
 
-	public Person(String nickname, String eSC2)
-	{
+	public Person(String nickname, String eSC2) {
 		this.name = "";
 		this.surname = "";
 		this.email = "";
@@ -58,95 +52,76 @@ public class Person implements Serializable
 		this.eSC = eSC2;
 	}
 
-	public String getESC()
-	{
+	public String getESC() {
 		return eSC;
 	}
 
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
 
-	public void setName(String name)
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
 
-	public String getSurname()
-	{
+	public String getSurname() {
 		return surname;
 	}
 
-	public void setSurname(String surname)
-	{
+	public void setSurname(String surname) {
 		this.surname = surname;
 	}
 
-	public String getEmail()
-	{
+	public String getEmail() {
 		return email;
 	}
 
-	public void setEmail(String email)
-	{
+	public void setEmail(String email) {
 		this.email = email;
 	}
 
-	public String getPhone()
-	{
+	public String getPhone() {
 		return phone;
 	}
 
-	public void setPhone(String phone)
-	{
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 
-	public LocalDate getBirth()
-	{
+	public LocalDate getBirth() {
 		return birth;
 	}
 
-	public void setBirth(String birth)
-	{
+	public void setBirth(String birth) {
 
-		try
-		{
+		try {
 			this.birth = LocalDate.parse(birth);
-		} catch (Exception e)
-		{
+		} catch (Exception e) {
 			System.out.println("***La fecha no es válida***");
 		}
 
 	}
 
-	public String getArea()
-	{
+	public String getArea() {
 		return area;
 	}
 
-	public void setArea(String area)
-	{
+	public void setArea(String area) {
 		this.area = area;
 	}
 
-	public String getNickname()
-	{
+	public String getNickname() {
 		return nickname;
 	}
 
-	public void setNickname(String nickname)
-	{
+	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
 
-	protected static String encrypt(String intro)
-	{
+	protected static String encrypt(String intro) {
 		StringBuilder aux = new StringBuilder();
 
-		for (int i = 0; i < intro.length(); i++)
-		{
+		for (int i = 0; i < intro.length(); i++) {
 			char caracter = intro.charAt(i);
 			int ascii = (int) caracter;
 			ascii = ((ascii - 32 + StaticData.encrypNum) % 95) + 32;
@@ -156,12 +131,10 @@ public class Person implements Serializable
 		return aux.toString();
 	}
 
-	protected static String decrypt(String intro)
-	{
+	protected static String decrypt(String intro) {
 		StringBuilder resultado = new StringBuilder();
 
-		for (int i = 0; i < intro.length(); i++)
-		{
+		for (int i = 0; i < intro.length(); i++) {
 			char caracter = intro.charAt(i);
 			int ascii = (int) caracter;
 			ascii = ((ascii - 32 - StaticData.encrypNum + 95) % 95) + 32;
@@ -171,8 +144,7 @@ public class Person implements Serializable
 		return resultado.toString();
 	}
 
-	public static Person newPerson()
-	{
+	public static Person newPerson() {
 		String name = "";
 		String surname = "";
 		String email = "";
@@ -203,15 +175,12 @@ public class Person implements Serializable
 		return new Person(name, surname, email, phone, birth, area);
 	}
 
-	protected static String getText(String text, String pattern)
-	{
+	protected static String getText(String text, String pattern) {
 
-		do
-		{
+		do {
 			text = Entrada.cadena();
 
-			if (!text.matches(pattern))
-			{
+			if (!text.matches(pattern)) {
 				Printer.print("\n****Formato Incorrecto****\n");
 			}
 
@@ -220,8 +189,7 @@ public class Person implements Serializable
 		return text;
 	}
 
-	public static Person newLoginUser()
-	{
+	public static Person newLoginUser() {
 		Printer.print("\n\n" + StaticData.BARRA + "Datos de inicio de sesión" + StaticData.BARRA + "\n\n");
 		Printer.print("Introduzca su NickName: ");
 		String nickname = Entrada.cadena();
@@ -231,21 +199,24 @@ public class Person implements Serializable
 		dSC = "";
 		return new Person(nickname, eSC);
 	}
-	public static void login(ArrayList<Person>pepole) {
-		
-		 Printer.print("Introduzca su NickName: ");
-	        String nickname = Entrada.cadena();
-	        Printer.print("Introduzca su contraseña: ");
-	        String password = Entrada.cadena();
-	        String eSC = encrypt(password);
 
-	        for (Person person : people) {
-	            if (person.getNickname().equals(nickname) && person.getESC().equals(eSC)) {
-	                Printer.print("Inicio de sesión exitoso.\n");
-	                return;
-	            }
-	        }
-	        Printer.print("Nickname o contraseña incorrectos.\n");
-	    }
+	public static void login(ArrayList<Person> people) {
+
+		Printer.print("Introduzca su NickName: ");
+		String nickname = Entrada.cadena();
+		Printer.print("Introduzca su contraseña: ");
+		String password = Entrada.cadena();
+		String eSC = encrypt(password);
+
+		for (int i = 0; i < people.size(); i++) {
+
+			Person person = people.get(i);
+
+			if (person.getNickname().equals(nickname) && person.getESC().equals(eSC)) {
+				Printer.print("Inicio de sesión exitoso.\n");
+				return;
+			}
+		}
+		Printer.print("Nickname o contraseña incorrectos.\n");
 	}
-
+}
