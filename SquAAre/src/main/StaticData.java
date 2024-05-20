@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class StaticData
 {
 
+	public static Integer maxTry=4;
 	public static final String BARRA = "-------------------------";
 	public static final String LOCALEMPLOYEE = "./keys/data/acc/employees.ser";
 	public static final String LOCALMANAGER = "./keys/data/acc/managers.ser";
@@ -184,8 +185,11 @@ public class StaticData
 	{
 		logMessages.add(LocalDate.now() + " - " + message);
 		saveLog();
+		
 	}
-
+	void end() {
+		
+	}
 	private void saveUsers()
 	{
 

@@ -6,7 +6,7 @@ import java.util.Collections;
 
 import com.comun.*;
 
-public class Main implements Runnable
+public class Main
 {
 
 	private static StaticData data;
@@ -20,7 +20,7 @@ public class Main implements Runnable
 	{
 		data = new StaticData();
 		first();
-
+		end();
 	}
 
 
@@ -112,15 +112,6 @@ public class Main implements Runnable
 
 
 
-	@Override
-	public void run()
-	{
-
-	}
-
-
-
-
 	private static void first()
 	{
 		System.out.println(StaticData.BARRA + " ¿Qué tipo de usuario eres? " + StaticData.BARRA);
@@ -167,7 +158,7 @@ public class Main implements Runnable
 	private static void startBossSession()
 	{
 
-		actualBoss = loginBoss(data.savedBoss);
+		actualBoss = (Boss) Person.login(data.savedBoss);
 		int option;
 
 
@@ -235,88 +226,22 @@ public class Main implements Runnable
 
 
 
-	private static Boss loginBoss(ArrayList<Boss> bossList)
-	{
-		System.out.println(
-				"\n\n" + StaticData.BARRA + " Inicio de sesión del Boss " + StaticData.BARRA + "\n\n");
-		System.out.println("Introduzca su nombre de usuario (Nickname): ");
-		String nickname = Entrada.cadena();
-		System.out.println("\nAhora escriba su contraseña: ");
-		String dSC = Entrada.cadena();
-		String eSC = Person.encrypt(dSC);
-		dSC = "";
-
-
-		for (Boss boss : bossList)
-		{
-
-
-			if (boss.getNickname().equals(nickname) && boss.getESC().equals(eSC))
-			{
-				return boss;
-			}
-
-		}
-
-		System.out.println("\n\n***Login fallido, intente nuevamente***\n\n");
-		return null;
-	}
-
-
-
-
-	private static Manager loginManager(ArrayList<Manager> managerList)
-	{
-		System.out.println(
-				"\n\n" + StaticData.BARRA + " Inicio de sesión del Manager " + StaticData.BARRA + "\n\n");
-		System.out.println("Introduzca su nombre de usuario (Nickname): ");
-		String nickname = Entrada.cadena();
-		System.out.println("\nAhora escriba su contraseña: ");
-		String dSC = Entrada.cadena();
-		String eSC = Person.encrypt(dSC);
-		dSC = "";
-
-
-		if (managerList == null)
-		{
-			Printer.print("Ningun Manager está registrado, hable con su administrador");
-			return null;
-		}
-
-
-		for (Manager manager : managerList)
-		{
-
-
-			if (manager.getNickname().equals(nickname) && manager.getESC().equals(eSC))
-			{
-				return manager;
-			}
-
-		}
-
-		System.out.println("\n\n***Login fallido, intente nuevamente***\n\n");
-		return null;
-	}
-
-
-
-
 	private static void end()
 	{
-		// TODO Auto-generated method stub
-
+		data.end();
 	}
+
+
 
 
 	private static void modifyManager()
 	{
 		System.out.println("Introduce el nombre del Manager que deseas modificar:");
 		String name = Entrada.cadena();
-
-		Manager manager = getManagerByName(name);
-
-
+		System.out.println("Introduce el apellido del Manager que deseas modificar:");
+		String surname1 = Entrada.cadena();
+		Manager manager = (Manager) getPersonByName(data.savedManager, name, surname1);
+		
 		if (manager != null)
 		{
 			System.out.println("Introduce los nuevos datos del Manager:");
@@ -337,10 +262,39 @@ public class Main implements Runnable
 			boss.modifyManager(data, manager, newName, surname, email, phone, birth, area);
 			System.out.println("Manager modificado correctamente.");
 		}
-		else
+
+	}
+
+
+
+
+	private static Person getPersonByName(ArrayList<? extends Person> saved, String name, String surname)
+	{
+
+
+		for (int i = 0; i < saved.size(); i++)
 		{
-			System.out.println("Manager no encontrado.");
+			Person manager = (Person) saved.get(i);
+
+
+			try
+			{
+
+
+				if (manager.getName().equalsIgnoreCase(name) && manager.getName().equalsIgnoreCase(surname))
+				{
+					return manager;
+				}
+
+			}
+			catch (Exception e)
+			{
+				System.out.println("No se enviaron manager");
+			}
+
 		}
+
+		return null;
 
 	}
 
@@ -380,27 +334,6 @@ public class Main implements Runnable
 			System.out.println("Employee no encontrado.");
 		}
 
-	}
-
-
-
-
-	private static Manager getManagerByName(String name)
-	{
-
-
-		for (Manager manager : data.savedManager)
-		{
-
-
-			if (manager.getName().equalsIgnoreCase(name))
-			{
-				return manager;
-			}
-
-		}
-
-		return null;
 	}
 
 
@@ -559,6 +492,9 @@ public class Main implements Runnable
 		{
 			System.out.println("\n*** Error al crear el nuevo empleado ***\n");
 		}
+
+		data.addLogMessage("El manager " + currentManager.name + " " + currentManager.surname
+				+ " ha creado al empleado " + newEmployee.name + " " + newEmployee.surname);
 
 	}
 

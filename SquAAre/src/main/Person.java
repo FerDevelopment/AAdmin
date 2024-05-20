@@ -200,8 +200,12 @@ public class Person implements Serializable {
 		return new Person(nickname, eSC);
 	}
 
-	public static void login(ArrayList<Person> people) {
+	public static Person login(ArrayList<? extends Person> people) {
 
+		if(StaticData.maxTry<=0) {
+			System.out.println("Ha excedido el numero de intentos");
+			StaticData.maxTry=4;
+		}
 		Printer.print("Introduzca su NickName: ");
 		String nickname = Entrada.cadena();
 		Printer.print("Introduzca su contraseña: ");
@@ -214,9 +218,13 @@ public class Person implements Serializable {
 
 			if (person.getNickname().equals(nickname) && person.getESC().equals(eSC)) {
 				Printer.print("Inicio de sesión exitoso.\n");
-				return;
+				StaticData.maxTry=4;
+				return person;
 			}
 		}
-		Printer.print("Nickname o contraseña incorrectos.\n");
+		
+		Printer.print("Nickname o contraseña incorrectos.\n\n");
+		StaticData.maxTry--;
+		return login(people);
 	}
 }
