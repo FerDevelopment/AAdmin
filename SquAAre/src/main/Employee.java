@@ -2,6 +2,7 @@
 
 package main;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import com.comun.*;
@@ -106,5 +107,33 @@ public class Employee extends Person implements Comparable<Employee>
 	{
 		return this.nickname.compareTo(otherUser.nickname);
 	}
+	 public void añadirProducto(ArrayList<Producto> productos, Producto producto) {
+	        productos.add(producto);
+	    }
 
+	    public void quitarProducto(ArrayList<Producto> productos, String nombreProducto) {
+	        productos.removeIf(producto -> producto.getNombre().equals(nombreProducto));
+	    }
+
+	    public void modificarProducto(ArrayList<Producto> productos, String nombreProducto, Producto productoModificado) {
+	        for (int i = 0; i < productos.size(); i++) {
+	            if (productos.get(i).getNombre().equals(nombreProducto)) {
+	                productos.set(i, productoModificado);
+	                break;
+	            }
+	        }
+	    }
+
+	    public void hacerEnvio(ArrayList<Producto> productos) {
+	        // Implementación simple para demostrar el envío
+	        StringBuilder envioDetalle = new StringBuilder("Envío realizado con los siguientes productos:\n");
+	        for (Producto producto : productos) {
+	            envioDetalle.append(producto.getNombre()).append(" - Cantidad: ")
+	                        .append(producto.getCantidad()).append("\n");
+	        }
+	        Printer.print(envioDetalle.toString());
+	        productos.clear(); // Asumimos que después del envío, se vacía la lista de productos
+	    }
+
+	  
 }
