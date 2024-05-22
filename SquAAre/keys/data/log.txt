@@ -1,0 +1,4 @@
+2024-05-20 - Se ha creado un nuevo Manager: kail
+2024-05-20 - Se ha creado un nuevo Employee: george
+2024-05-20 - Se ha modificado el Manager: kail
+2024-05-20 - Se ha modificado el Employee: jonh 
