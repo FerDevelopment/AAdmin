@@ -22,17 +22,92 @@ public class Manager extends Person implements Comparable<Manager>
 		data.addLogMessage("Se ha creado un nuevo Employee: " + name);
 	}
 
-	public void modifyEmployee(StaticData data, Employee employee, String name, String surname, String email,
-			String phone, String birth, String area)
+	public void modifyEmployee(StaticData data, Employee employee, int option, String newValue)
 	{
-		employee.setName(name);
-		employee.setSurname(surname);
-		employee.setEmail(email);
-		employee.setPhone(phone);
-		employee.setBirth(birth);
-		employee.setArea(area);
-		data.addLogMessage("Se ha modificado el Employee: " + name);
+		String oldValue = "";
+
+
+		switch (option)
+		{
+			case 0:
+				// Modificar nombre
+				oldValue = employee.getName();
+				employee.setName(newValue);
+				data.addLogMessage("Nombre del empleado " + oldValue + " cambiado a " + newValue);
+				break;
+
+
+
+			case 1:
+				// Modificar apellido
+				oldValue = employee.getSurname();
+				employee.setSurname(newValue);
+				data.addLogMessage("Apellido del empleado " + oldValue + " cambiado a " + newValue);
+				break;
+
+
+
+			case 2:
+				// Modificar email
+				oldValue = employee.getEmail();
+				employee.setEmail(newValue);
+				data.addLogMessage("Email del empleado " + oldValue + " cambiado a " + newValue);
+				break;
+
+
+
+			case 3:
+				// Modificar teléfono
+				oldValue = employee.getPhone();
+				employee.setPhone(newValue);
+				data.addLogMessage("Teléfono del empleado " + oldValue + " cambiado a " + newValue);
+				break;
+
+
+
+			case 4:
+				// Modificar fecha de nacimiento
+				oldValue = employee.getBirth().toString();
+				employee.setBirth(newValue);
+				data.addLogMessage(
+						"Fecha de nacimiento del empleado " + oldValue + " cambiada a " + newValue);
+				break;
+
+
+
+			case 5:
+				// Modificar área de trabajo
+				oldValue = employee.getArea();
+				employee.setArea(newValue);
+				data.addLogMessage("Área de trabajo del empleado " + oldValue + " cambiada a " + newValue);
+				break;
+
+
+
+			case 6:
+				// Modificar nickname
+				oldValue = employee.getNickname();
+				employee.setNickname(newValue);
+				data.addLogMessage("Nickname del empleado " + oldValue + " cambiado a " + newValue);
+				break;
+
+
+
+			case 7:
+				// Modificar contraseña
+				oldValue = employee.getESC();
+				employee.setESC(newValue);
+				data.addLogMessage("Contraseña del empleado cambiada.");
+				break;
+
+
+
+			default:
+				System.out.println("Opción no válida");
+		}
+
 	}
+
 
 	@Override
 	public int compareTo(Manager otherUser)

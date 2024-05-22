@@ -229,7 +229,7 @@ public class Main
 
 
 				case 2:
-					actualBoss.createEmployee(data);
+				createEmployee(actualBoss);
 					break;
 
 
@@ -302,10 +302,10 @@ public class Main
 				{
 					System.out.print("Nombre: ");
 					String newName = Entrada.cadena();
-					actualBoss.modifyManager(data, manager, 0,newName);
+					actualBoss.modifyManager(data, manager, 0, newName);
 					System.out.print("Apellido: ");
 					String surname = Entrada.cadena();
-					actualBoss.modifyManager(data, manager, 1,surname);
+					actualBoss.modifyManager(data, manager, 1, surname);
 				}
 
 
@@ -314,7 +314,7 @@ public class Main
 				{
 					System.out.print("Email: ");
 					String email = Entrada.cadena();
-					actualBoss.modifyManager(data, manager, 2,email);
+					actualBoss.modifyManager(data, manager, 2, email);
 				}
 
 
@@ -323,13 +323,16 @@ public class Main
 				{
 					System.out.print("Teléfono: ");
 					String phone = Entrada.cadena();
-					actualBoss.modifyManager(data, manager, 3,phone);
+					actualBoss.modifyManager(data, manager, 3, phone);
 				}
+
+
+
 				case 4:
 				{
 					System.out.print("Fecha de nacimiento (aaaa-mm-dd): ");
 					String birth = Entrada.cadena();
-					actualBoss.modifyManager(data, manager, 4,birth);
+					actualBoss.modifyManager(data, manager, 4, birth);
 				}
 
 
@@ -338,7 +341,7 @@ public class Main
 				{
 					System.out.print("Área de trabajo: ");
 					String area = Entrada.cadena();
-					actualBoss.modifyManager(data, manager, 5,area);
+					actualBoss.modifyManager(data, manager, 5, area);
 				}
 
 
@@ -347,7 +350,7 @@ public class Main
 				{
 					System.out.println("Nickname: ");
 					String nickname = Entrada.cadena();
-					actualBoss.modifyManager(data, manager, 3,nickname);
+					actualBoss.modifyManager(data, manager, 3, nickname);
 				}
 
 
@@ -357,13 +360,121 @@ public class Main
 					System.out.println("Contrasenya: ");
 					String contrasenya = Entrada.cadena();
 					contrasenya = Person.encrypt(contrasenya);
-					actualBoss.modifyManager(data, manager, 7,contrasenya);
+					actualBoss.modifyManager(data, manager, 7, contrasenya);
 				}
 
 			}
 
-			
 			System.out.println("Manager modificado correctamente.");
+		}
+
+	}
+
+
+
+
+	private static void modifyEmployee()
+	{
+		System.out.println("Introduce el nombre del Employee que deseas modificar:");
+		String name = Entrada.cadena();
+		System.out.println("Introduce el apellido del Employee que deseas modificar:");
+		String surname1 = Entrada.cadena();
+		Employee employee = (Employee) getPersonByName(data.savedEmployee, name, surname1);
+
+
+		if (employee != null)
+		{
+			System.out.println(
+					"\n¿Qué dato desea modificar?\n->1.Nombre y apellidos\n->2.Email\n->3.Teléfono\n->4.Fecha de nacimiento\n->5.Área de trabajo\n->6.Nickname\n->7.Contraseña");
+			Integer option = Entrada.entero();
+
+
+			switch (option)
+			{
+				case 1:
+				{
+					System.out.print("Nombre: ");
+					String newName = Entrada.cadena();
+					actualManager.modifyEmployee(data, employee, 0, newName);
+					System.out.print("Apellido: ");
+					String surname = Entrada.cadena();
+					actualManager.modifyEmployee(data, employee, 1, surname);
+					break;
+				}
+
+
+
+				case 2:
+				{
+					System.out.print("Email: ");
+					String email = Entrada.cadena();
+					actualManager.modifyEmployee(data, employee, 2, email);
+					break;
+				}
+
+
+
+				case 3:
+				{
+					System.out.print("Teléfono: ");
+					String phone = Entrada.cadena();
+					actualManager.modifyEmployee(data, employee, 3, phone);
+					break;
+				}
+
+
+
+				case 4:
+				{
+					System.out.print("Fecha de nacimiento (aaaa-mm-dd): ");
+					String birth = Entrada.cadena();
+					actualManager.modifyEmployee(data, employee, 4, birth);
+					break;
+				}
+
+
+
+				case 5:
+				{
+					System.out.print("Área de trabajo: ");
+					String area = Entrada.cadena();
+					actualManager.modifyEmployee(data, employee, 5, area);
+					break;
+				}
+
+
+
+				case 6:
+				{
+					System.out.print("Nickname: ");
+					String nickname = Entrada.cadena();
+					actualManager.modifyEmployee(data, employee, 6, nickname);
+					break;
+				}
+
+
+
+				case 7:
+				{
+					System.out.print("Contraseña: ");
+					String contrasenya = Entrada.cadena();
+					contrasenya = Person.encrypt(contrasenya);
+					actualManager.modifyEmployee(data, employee, 7, contrasenya);
+					break;
+				}
+
+
+
+				default:
+					System.out.println("Opción no válida");
+					break;
+			}
+
+			System.out.println("Employee modificado correctamente.");
+		}
+		else
+		{
+			System.out.println("Employee no encontrado.");
 		}
 
 	}
@@ -404,45 +515,7 @@ public class Main
 
 
 
-	private static void modifyEmployee()
-	{
-		System.out.println("Introduce el nombre del Employee que deseas modificar:");
-		String name = Entrada.cadena();
-
-		Employee employee = getEmployeeByName(name);
-
-
-		if (employee != null)
-		{
-			System.out.println("Introduce los nuevos datos del Employee:");
-			System.out.print("Nombre: ");
-			String newName = Entrada.cadena();
-			System.out.print("Apellido: ");
-			String surname = Entrada.cadena();
-			System.out.print("Email: ");
-			String email = Entrada.cadena();
-			System.out.print("Teléfono: ");
-			String phone = Entrada.cadena();
-			System.out.print("Fecha de nacimiento (aaaa-mm-dd): ");
-			String birth = Entrada.cadena();
-			System.out.print("Área de trabajo: ");
-			String area = Entrada.cadena();
-
-			Boss boss = new Boss();
-			boss.modifyEmployee(data, employee, newName, surname, email, phone, birth, area);
-			System.out.println("Employee modificado correctamente.");
-		}
-		else
-		{
-			System.out.println("Employee no encontrado.");
-		}
-
-	}
-
-
-
-
-	private static Employee getEmployeeByName(String name)
+	private static Employee getEmployeeByName(String name, String surname)
 	{
 
 
@@ -450,7 +523,7 @@ public class Main
 		{
 
 
-			if (employee.getName().equalsIgnoreCase(name))
+			if (employee.getName().contains(name) && employee.getSurname().contains(surname))
 			{
 				return employee;
 			}
@@ -581,7 +654,7 @@ public class Main
 
 
 
-	private static void createEmployee(Manager currentManager)
+	private static void createEmployee(Person currentManager)
 	{
 		Employee newEmployee = Employee.newEmployee();
 
