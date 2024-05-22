@@ -40,9 +40,17 @@ public class Boss extends Person implements Comparable<Boss>
 		String birth = Entrada.cadena();
 		System.out.print("Área de trabajo: ");
 		String area = Entrada.cadena();
+		System.out.print("Nickname: ");
+		String nickname = Entrada.cadena();
+		System.out.print("Contraseña: ");
+		String password = Entrada.cadena();
 		Manager manager = new Manager(name, surname, email, phone, birth, area);
+		manager.nickname = nickname;
+		String eSC = Person.encrypt(password);
+		manager.eSC = eSC;
 		data.savedManager.add(manager);
-		data.addLogMessage("Se ha creado un nuevo Manager: " + manager.getName());
+		data.addLogMessage(
+				"Se ha creado un nuevo Manager: " + manager.getName() + " " + manager.getSurname());
 	}
 
 
@@ -72,16 +80,89 @@ public class Boss extends Person implements Comparable<Boss>
 
 
 
-	public void modifyManager(StaticData data, Manager manager, String name, String surname, String email,
-			String phone, String birth, String area)
+	public void modifyManager(StaticData data, Manager manager, int option, String newValue)
 	{
-		manager.setName(name);
-		manager.setSurname(surname);
-		manager.setEmail(email);
-		manager.setPhone(phone);
-		manager.setBirth(birth);
-		manager.setArea(area);
-		data.addLogMessage("Se ha modificado el Manager: " + manager.getName());
+		String oldValue = "";
+
+
+		switch (option)
+		{
+			case 0:
+				// Modificar nombre
+				oldValue = manager.getName();
+				manager.setName(newValue);
+				data.addLogMessage("Nombre del manager " + oldValue + " cambiado a " + newValue);
+				break;
+
+
+
+			case 1:
+				// Modificar apellido
+				oldValue = manager.getSurname();
+				manager.setSurname(newValue);
+				data.addLogMessage("Apellido del manager " + oldValue + " cambiado a " + newValue);
+				break;
+
+
+
+			case 2:
+				// Modificar email
+				oldValue = manager.getEmail();
+				manager.setEmail(newValue);
+				data.addLogMessage("Email del manager " + oldValue + " cambiado a " + newValue);
+				break;
+
+
+
+			case 3:
+				// Modificar teléfono
+				oldValue = manager.getPhone();
+				manager.setPhone(newValue);
+				data.addLogMessage("Teléfono del manager " + oldValue + " cambiado a " + newValue);
+				break;
+
+
+
+			case 4:
+				// Modificar fecha de nacimiento
+				oldValue = manager.getBirth().toString();
+				manager.setBirth(newValue);
+				data.addLogMessage("Fecha de nacimiento del manager " + oldValue + " cambiada a " + newValue);
+				break;
+
+
+
+			case 5:
+				// Modificar área de trabajo
+				oldValue = manager.getArea();
+				manager.setArea(newValue);
+				data.addLogMessage("Área de trabajo del manager " + oldValue + " cambiada a " + newValue);
+				break;
+
+
+
+			case 6:
+				// Modificar nickname
+				oldValue = manager.getNickname();
+				manager.setNickname(newValue);
+				data.addLogMessage("Nickname del manager " + oldValue + " cambiado a " + newValue);
+				break;
+
+
+
+			case 7:
+				// Modificar contraseña
+				oldValue = manager.getESC();
+				manager.setESC(newValue);
+				data.addLogMessage("Contraseña del manager cambiada.");
+				break;
+
+
+
+			default:
+				System.out.println("Opción no válida");
+		}
+
 	}
 
 

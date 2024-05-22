@@ -227,4 +227,9 @@ public class Person implements Serializable {
 		StaticData.maxTry--;
 		return login(people);
 	}
+	public void setESC(String newValue)
+	{
+		this.eSC=newValue;
+		
+	}
 }
