@@ -111,10 +111,6 @@ public class Employee extends Person implements Comparable<Employee>
 
 
 
-	
-
-
-
 	public void añadirProducto(ArrayList<Product> productos, Product producto)
 	{
 		productos.add(producto);
@@ -133,19 +129,16 @@ public class Employee extends Person implements Comparable<Employee>
 
 	public void modifyProduct(ArrayList<Product> productos)
 	{
-/*
-
-		for (int i = 0; i < productos.size(); i++)
-		{
-
-
-			if (productos.get(i).getName().equals(nombreProducto))
-			{
-				productos.set(i, productoModificado);
-				break;
-			}
-
-		}Ç*/
+		/*
+		 * 
+		 * for (int i = 0; i < productos.size(); i++) {
+		 * 
+		 * 
+		 * if (productos.get(i).getName().equals(nombreProducto)) {
+		 * productos.set(i, productoModificado); break; }
+		 * 
+		 * }Ç
+		 */
 
 	}
 
@@ -167,25 +160,38 @@ public class Employee extends Person implements Comparable<Employee>
 		Printer.print(envioDetalle.toString());
 		productos.clear(); // Asumimos que después del envío, se vacía la lista de productos
 	}
-	   public void createPersonalizedReport() {
-	        // Implementar la lógica para crear un reporte personalizado
-	        System.out.println("Creando un reporte personalizado...");
-	        this.logMessages.add("Empleado " + nickname + " creó un reporte personalizado.");
-	        // Lógica específica para crear el reporte
-	    }
 
-	    public void createSalesReport() {
-	        // Implementar la lógica para crear un reporte de ventas
-	        System.out.println("Creando un reporte de ventas...");
-	        this.logMessages.add("Empleado " + nickname + " creó un reporte de ventas.");
-	        // Lógica específica para crear el reporte de ventas
-	    }
-	    public void viewProductQuantities() {
-	        // Implementar la lógica para ver la cantidad de productos
-	        System.out.println("Viendo la cantidad de productos...");
-	        this.logMessages.add("Empleado " + nickname + " vio la cantidad de productos.");
-	        // Lógica específica para ver las cantidades de los productos
-	    }
-	   
+
+
+
+	public void createPersonalizedReport()
+	{
+		// Implementar la lógica para crear un reporte personalizado
+		System.out.println("Creando un reporte personalizado...");
+		this.logMessages.add("Empleado " + nickname + " creó un reporte personalizado.");
+		// Lógica específica para crear el reporte
+	}
+
+
+
+
+	public void createSalesReport()
+	{
+		// Implementar la lógica para crear un reporte de ventas
+		System.out.println("Creando un reporte de ventas...");
+		this.logMessages.add("Empleado " + nickname + " creó un reporte de ventas.");
+		// Lógica específica para crear el reporte de ventas
+	}
+
+
+
+
+	public void viewProductQuantities()
+	{
+		// Implementar la lógica para ver la cantidad de productos
+		System.out.println("Viendo la cantidad de productos...");
+		this.logMessages.add("Empleado " + nickname + " vio la cantidad de productos.");
+		// Lógica específica para ver las cantidades de los productos
+	}
 
 }

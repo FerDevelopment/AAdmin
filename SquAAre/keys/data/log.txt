@@ -4,3 +4,14 @@
 2024-05-20 - Se ha modificado el Employee: jonh 
 2024-05-23 - Se ha creado un nuevo Manager: Fe de
 2024-05-23 - El manager Fe de ha creado al empleado Fernando Aronm
+2024-05-24 - Se ha creado un nuevo Manager: Fernando Fernando
+2024-05-24 - Se ha creado un nuevo Manager: Fernando Fernando
+2024-05-24 - El manager Fernando martinez ha creado al empleado Fernando Martinez
+2024-05-24 - El manager Fernando martinez ha creado al empleado Fernando Martinez
+2024-05-24 - El manager Fernando martinez ha creado al empleado Fernando Martinez
+2024-05-24 - Se ha creado un nuevo Manager: Fernando Fernando
+2024-05-24 - Teléfono del manager 123456789 cambiado a jug
+2024-05-24 - Teléfono del manager 123456789 cambiado a jug
+2024-05-24 - Se ha creado un nuevo Manager: Fernando Fernanod
+2024-05-24 - Se ha creado un nuevo Manager: fer fee
+2024-05-24 - Se ha creado un nuevo Manager: fer fer
