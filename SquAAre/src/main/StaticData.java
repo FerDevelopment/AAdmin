@@ -5,11 +5,11 @@ package main;
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 
-public class StaticData
-{
+public class StaticData {
 
-	public static Integer maxTry=4;
+	public static Integer maxTry = 4;
 	public static final String BARRA = "-------------------------";
 	public static final String LOCALEMPLOYEE = "./keys/data/acc/employees.ser";
 	public static final String LOCALMANAGER = "./keys/data/acc/managers.ser";
@@ -24,65 +24,53 @@ public class StaticData
 	public ArrayList<Employee> savedEmployee = new ArrayList<>();
 	public ArrayList<Manager> savedManager = new ArrayList<>();
 	public ArrayList<Boss> savedBoss = new ArrayList<>();
-	public ArrayList<Producto> savedProducts = new ArrayList<>(); // Nuevo ArrayList para guardar los
+	public ArrayList<Product> savedProducts = new ArrayList<>(); // Nuevo ArrayList para guardar los
 																	// productos
 	private ArrayList<String> logMessages = new ArrayList<>();
 
-	public StaticData()
-	{
+	public StaticData() {
 	}
 
-	public ArrayList<Manager> getSavedManager()
-	{
+	public ArrayList<Manager> getSavedManager() {
 		return savedManager;
 	}
 
-	public void setSavedManager(ArrayList<Manager> savedManager)
-	{
+	public void setSavedManager(ArrayList<Manager> savedManager) {
 		this.savedManager = savedManager;
 	}
 
-	public ArrayList<Boss> getSavedBoss()
-	{
+	public ArrayList<Boss> getSavedBoss() {
 		return savedBoss;
 	}
 
-	public ArrayList<Producto> getSavedProducts()
-	{
+	public ArrayList<Product> getSavedProducts() {
 		return savedProducts;
 	}
 
-	public void setSavedProducts(ArrayList<Producto> savedProducts)
-	{
+	public void setSavedProducts(ArrayList<Product> savedProducts) {
 		this.savedProducts = savedProducts;
 	}
 
-	public ArrayList<String> getLogMessages()
-	{
+	public ArrayList<String> getLogMessages() {
 		return logMessages;
 	}
 
-	public void setLogMessages(ArrayList<String> logMessages)
-	{
+	public void setLogMessages(ArrayList<String> logMessages) {
 		this.logMessages = logMessages;
 	}
 
 	@SuppressWarnings("unchecked")
-	public void getEmployee()
-	{
+	public void getEmployee() {
 		File file = new File(LOCALEMPLOYEE);
 
-		if (file.exists())
-		{
+		if (file.exists()) {
 
-			try
-			{
+			try {
 				FileInputStream fileIn = new FileInputStream(LOCALEMPLOYEE);
 				ObjectInputStream objectIn = new ObjectInputStream(fileIn);
 				savedEmployee = (ArrayList<Employee>) objectIn.readObject();
 				objectIn.close();
-			} catch (Exception e)
-			{
+			} catch (Exception e) {
 				savedEmployee = new ArrayList<>();
 			}
 
@@ -91,21 +79,17 @@ public class StaticData
 	}
 
 	@SuppressWarnings("unchecked")
-	public void getManagers()
-	{
+	public void getManagers() {
 		File file = new File(LOCALMANAGER);
 
-		if (file.exists())
-		{
+		if (file.exists()) {
 
-			try
-			{
+			try {
 				FileInputStream fileIn = new FileInputStream(LOCALMANAGER);
 				ObjectInputStream objectIn = new ObjectInputStream(fileIn);
 				savedManager = (ArrayList<Manager>) objectIn.readObject();
 				objectIn.close();
-			} catch (Exception e)
-			{
+			} catch (Exception e) {
 				savedManager = new ArrayList<>();
 			}
 
@@ -114,21 +98,17 @@ public class StaticData
 	}
 
 	@SuppressWarnings("unchecked")
-	public void getBoss()
-	{
+	public void getBoss() {
 		File file = new File(LOCALBOSS);
 
-		if (file.exists())
-		{
+		if (file.exists()) {
 
-			try
-			{
+			try {
 				FileInputStream fileIn = new FileInputStream(LOCALBOSS);
 				ObjectInputStream objectIn = new ObjectInputStream(fileIn);
 				savedBoss = (ArrayList<Boss>) objectIn.readObject();
 				objectIn.close();
-			} catch (Exception e)
-			{
+			} catch (Exception e) {
 				savedBoss = new ArrayList<>();
 			}
 
@@ -137,21 +117,17 @@ public class StaticData
 	}
 
 	@SuppressWarnings("unchecked")
-	public void getProducts()
-	{ // Método para cargar los productos guardados
+	public void getProducts() { // Método para cargar los productos guardados
 		File file = new File(LOCALPRODUCTS);
 
-		if (file.exists())
-		{
+		if (file.exists()) {
 
-			try
-			{
+			try {
 				FileInputStream fileIn = new FileInputStream(LOCALPRODUCTS);
 				ObjectInputStream objectIn = new ObjectInputStream(fileIn);
-				savedProducts = (ArrayList<Producto>) objectIn.readObject();
+				savedProducts = (ArrayList<Product>) objectIn.readObject();
 				objectIn.close();
-			} catch (Exception e)
-			{
+			} catch (Exception e) {
 				savedProducts = new ArrayList<>();
 			}
 
@@ -159,120 +135,132 @@ public class StaticData
 
 	}
 
-	public void addEmployee(Employee employee)
-	{
-		if (savedEmployee != null)
-		{
+	public void addEmployee(Employee employee) {
+		if (savedEmployee != null) {
 			savedEmployee = new ArrayList<>();
 		}
 		savedEmployee.add(employee);
-		saveUsers();
+		saveEmployee();
 	}
 
-	public void addManager(Manager manager)
-	{
+	public void addManager(Manager manager) {
 		savedManager.add(manager);
 		saveManagers();
 	}
 
-	public void addProduct(Producto producto)
-	{ // Método para agregar un producto y guardarlo
+	public void addProduct(Product producto) { // Método para agregar un producto y guardarlo
 		savedProducts.add(producto);
 		saveProducts();
 	}
 
-	public void addLogMessage(String message)
-	{
+	public void addLogMessage(String message) {
 		logMessages.add(LocalDate.now() + " - " + message);
 		saveLog();
-		
-	}
-	void end() {
-		
-	}
-	private void saveUsers()
-	{
 
-		try
-		{
+	}
+
+	void end() {
+		if (savedBoss != null&& savedBoss.size()>0) {
+			saveBoss();
+		}
+		if (savedEmployee != null&& savedEmployee.size()>0) {
+			saveEmployee();
+		}
+		if (savedManager != null&& savedManager.size()>0) {
+			saveManagers();
+		}
+		if (savedProducts != null&& savedProducts.size()>0) {
+			saveProducts();
+		}
+		if (logMessages != null && logMessages.size()>0) {
+			saveLog();
+		}
+	}
+
+	private void saveEmployee() {
+
+		try {
+			Collections.sort(savedEmployee);
 			FileOutputStream fileOut = new FileOutputStream(LOCALEMPLOYEE);
 			ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
 			objectOut.writeObject(savedEmployee);
 			objectOut.close();
-		} catch (IOException e)
-		{
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 	}
 
-	private void saveManagers()
-	{
+	private void saveBoss() {
 
-		try
-		{
+		try {
+			Collections.sort(savedBoss);
+			FileOutputStream fileOut = new FileOutputStream(LOCALBOSS);
+			ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+			objectOut.writeObject(savedBoss);
+			objectOut.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private void saveManagers() {
+
+		try {
+			Collections.sort(savedManager);
 			FileOutputStream fileOut = new FileOutputStream(LOCALMANAGER);
 			ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
 			objectOut.writeObject(savedManager);
 			objectOut.close();
-		} catch (IOException e)
-		{
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 	}
 
-	private void saveProducts()
-	{ // Método para guardar los productos
+	private void saveProducts() { // Método para guardar los productos
 
-		try
-		{
+		try {
+			Collections.sort(savedProducts);
 			FileOutputStream fileOut = new FileOutputStream(LOCALPRODUCTS);
 			ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
 			objectOut.writeObject(savedProducts);
 			objectOut.close();
-		} catch (IOException e)
-		{
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 	}
 
-	private void saveLog()
-	{
+	private void saveLog() {
 
-		try
-		{
+		try {
+			Collections.sort(logMessages);
 			FileWriter fileWriter = new FileWriter(LOG_FILE, true);
 			PrintWriter printWriter = new PrintWriter(fileWriter);
 			printWriter.println(logMessages.get(logMessages.size() - 1));
 			printWriter.close();
-		} catch (IOException e)
-		{
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 	}
 
-	public void pause(int i) throws InterruptedException
-	{
+	public void pause(int i) throws InterruptedException {
 
 		Thread.sleep((int) 1000 * i);
 
 	}
 
-	public static void cls()
-	{
-		for (int i = 0; i < 50; i++)
-		{
+	public static void cls() {
+		for (int i = 0; i < 50; i++) {
 			System.out.print("\n\n");
 		}
 
-		try
-		{
+		try {
 			Thread.sleep(100);
-		} catch (Exception e)
-		{
+		} catch (Exception e) {
 			// TODO: handle exception
 		}
 

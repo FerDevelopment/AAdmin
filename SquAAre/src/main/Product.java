@@ -1,17 +1,17 @@
 package main;
 
-public class Producto {
+public class Product implements Comparable<Product>{
     private String nombre;
     private double precio;
     private int cantidad;
 
-    public Producto(String nombre, double precio, int cantidad) {
+    public Product(String nombre, double precio, int cantidad) {
         this.nombre = nombre;
         this.precio = precio;
         this.cantidad = cantidad;
     }
 
-    public String getNombre() {
+    public String getName() {
         return nombre;
     }
 
@@ -34,4 +34,11 @@ public class Producto {
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
     }
+    
+    @Override
+    public int compareTo(Product o)
+	{
+		return this.getName().compareTo(o.getName());
+	}
+
 }

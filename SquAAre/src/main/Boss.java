@@ -188,5 +188,40 @@ public class Boss extends Person implements Comparable<Boss>
 	{
 		return this.getName().compareTo(otherUser.getName());
 	}
+	public static Boss createBoss() {
+		System.out.println("Introduce los datos del nuevo Boss:");
+		System.out.print("Nombre: ");
+		String name = Entrada.cadena();
+		System.out.print("Apellido: ");
+		String surname = Entrada.cadena();
+		System.out.print("Email: ");
+		String email = Entrada.cadena();
+		System.out.print("Teléfono: ");
+		String phone = Entrada.cadena();
+		System.out.print("Fecha de nacimiento (aaaa-mm-dd): ");
+		String birth = Entrada.cadena();
+		System.out.print("Área de trabajo: ");
+		String area = Entrada.cadena();
+		System.out.print("Nickname: ");
+		String nickname = Entrada.cadena();
+		System.out.print("Contraseña: ");
+		String password = Entrada.cadena();
+
+		Boss newBoss = new Boss();
+		newBoss.setName(name);
+		newBoss.setSurname(surname);
+		newBoss.setEmail(email);
+		newBoss.setPhone(phone);
+		newBoss.setBirth(birth);
+		newBoss.setArea(area);
+		newBoss.setNickname(nickname);
+		String eSC = Person.encrypt(password);
+		newBoss.eSC = eSC;
+
+		
+		System.out.println("\n*** Nuevo Boss creado exitosamente ***\n");
+
+		return newBoss;
+	}
 
 }

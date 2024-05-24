@@ -18,6 +18,7 @@ public class Person implements Serializable {
 	protected String area;
 	protected String eSC;
 	protected String nickname;
+	ArrayList<String> logMessages;
 
 	public Person(String name, String surname, String email, String phone, String birth, String area) {
 		this.name = name;
@@ -202,9 +203,9 @@ public class Person implements Serializable {
 
 	public static Person login(ArrayList<? extends Person> people) {
 
-		if(StaticData.maxTry<=0) {
+		if (StaticData.maxTry <= 0) {
 			System.out.println("Ha excedido el numero de intentos");
-			StaticData.maxTry=4;
+			StaticData.maxTry = 4;
 		}
 		Printer.print("Introduzca su NickName: ");
 		String nickname = Entrada.cadena();
@@ -218,18 +219,116 @@ public class Person implements Serializable {
 
 			if (person.getNickname().equals(nickname) && person.getESC().equals(eSC)) {
 				Printer.print("Inicio de sesión exitoso.\n");
-				StaticData.maxTry=4;
+				StaticData.maxTry = 4;
 				return person;
 			}
 		}
-		
+
 		Printer.print("Nickname o contraseña incorrectos.\n\n");
 		StaticData.maxTry--;
 		return login(people);
 	}
-	public void setESC(String newValue)
-	{
-		this.eSC=newValue;
-		
+
+	public void setESC(String newValue) {
+		this.eSC = newValue;
+
+	}
+
+	public void viewActivityReport() {
+
+		if (logMessages != null) {
+			System.out.println("Informe de actividad:");
+			for (String message : logMessages) {
+				System.out.println(message);
+			}
+		}
+
+	}
+
+	public static void modifyEmployee(StaticData data, Employee employee, Person subBoss) {
+
+		if (employee != null) {
+			String oldValue = "";
+			String newValue = "";
+			System.out.println(
+					"\n¿Qué dato desea modificar?\n->1.Nombre y apellidos\n->2.Email\n->3.Teléfono\n->4.Fecha de nacimiento\n->5.Área de trabajo\n->6.Nickname\n->7.Contraseña");
+			Integer option = Entrada.entero();
+
+			switch (option) {
+			case 1: {
+				System.out.print("Nombre: ");
+
+				oldValue = employee.getName();
+				employee.setName(newValue);
+				data.addLogMessage("Nombre del empleado " + oldValue + " cambiado a " + newValue);
+				System.out.print("Apellido: ");
+
+				oldValue = employee.getSurname();
+				employee.setSurname(newValue);
+				data.addLogMessage("Apellido del empleado " + oldValue + " cambiado a " + newValue);
+
+				break;
+			}
+
+			case 2: {
+				System.out.print("Email: ");
+				oldValue = employee.getEmail();
+				employee.setEmail(newValue);
+				data.addLogMessage("Email del empleado " + oldValue + " cambiado a " + newValue);
+
+				break;
+			}
+
+			case 3: {
+				System.out.print("Teléfono: ");
+				oldValue = employee.getPhone();
+				employee.setPhone(newValue);
+				data.addLogMessage("Teléfono del empleado " + oldValue + " cambiado a " + newValue);
+
+				break;
+			}
+
+			case 4: {
+				System.out.print("Fecha de nacimiento (aaaa-mm-dd): ");
+				oldValue = employee.getBirth().toString();
+				employee.setBirth(newValue);
+				data.addLogMessage("Fecha de nacimiento del empleado " + oldValue + " cambiada a " + newValue);
+
+				break;
+			}
+
+			case 5: {
+				System.out.print("Área de trabajo: ");
+				oldValue = employee.getArea();
+				employee.setArea(newValue);
+				data.addLogMessage("Área de trabajo del empleado " + oldValue + " cambiada a " + newValue);
+				break;
+			}
+
+			case 6: {
+				System.out.print("Nickname: ");
+				oldValue = employee.getNickname();
+				employee.setNickname(newValue);
+				data.addLogMessage("Nickname del empleado " + oldValue + " cambiado a " + newValue);
+				break;
+			}
+
+			case 7: {
+				oldValue = employee.getESC();
+				employee.setESC(newValue);
+				data.addLogMessage("Contraseña del empleado cambiada.");
+				break;
+			}
+
+			default:
+				System.out.println("Opción no válida");
+				break;
+			}
+
+			System.out.println("Employee modificado correctamente.");
+		} else {
+			System.out.println("Employee no encontrado.");
+		}
+
 	}
 }

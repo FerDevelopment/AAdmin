@@ -2,3 +2,5 @@
 2024-05-20 - Se ha creado un nuevo Employee: george
 2024-05-20 - Se ha modificado el Manager: kail
 2024-05-20 - Se ha modificado el Employee: jonh 
+2024-05-23 - Se ha creado un nuevo Manager: Fe de
+2024-05-23 - El manager Fe de ha creado al empleado Fernando Aronm
