@@ -16,6 +16,7 @@ public class DeserializationExample
 		// Deserializar la lista desde el archivo
 		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("people.ser")))
 		{
+			@SuppressWarnings("unchecked")
 			List<Person> deserializedPeople = (List<Person>) ois.readObject();
 
 
