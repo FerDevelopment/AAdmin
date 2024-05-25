@@ -4,27 +4,20 @@ package main;
 import com.comun.Entrada;
 import com.comun.Printer;
 
-public class Boss extends Person implements Comparable<Boss>
+public class Boss extends Person
 {
 
 	private static final long serialVersionUID = 3L;
-
 
 	public Boss(String name, String surname, String email, String phone, String birth, String area)
 	{
 		super(name, surname, email, phone, birth, area);
 	}
 
-
-
-
 	public Boss()
 	{
-		// TODO Auto-generated constructor stub
+
 	}
-
-
-
 
 	public void createManager(StaticData data)
 	{
@@ -38,52 +31,13 @@ public class Boss extends Person implements Comparable<Boss>
 		String eSC = Person.encrypt(dSC);
 		dSC = "";
 
-		Manager manager = new Manager(aux.getName(), aux.getSurname(), aux.getEmail(), aux.getPhone(),
-				aux.getBirth(), aux.getArea(), nickname, eSC);
+		Manager manager = new Manager(aux.getName(), aux.getSurname(), aux.getEmail(), aux.getPhone(), aux.getBirth(),
+				aux.getArea(), nickname, eSC);
 
 		data.savedManager.add(manager);
-		data.addLogMessage(
-				"Se ha creado un nuevo Manager: " + manager.getName() + " " + manager.getSurname());
-		this.logMessages.add(
-				"Se ha creado un nuevo Manager: " + manager.getName() + " " + manager.getSurname());
+		data.addLogMessage("Se ha creado un nuevo Manager: " + manager.getName() + " " + manager.getSurname());
+		this.logMessages.add("Se ha creado un nuevo Manager: " + manager.getName() + " " + manager.getSurname());
 	}
-
-
-
-
-	public void createEmployee(StaticData data)
-	{
-		System.out.println("Introduce los datos del nuevo Employee:");
-		System.out.print("Nombre: ");
-		String name = Entrada.cadena();
-		System.out.print("Apellido: ");
-		String surname = Entrada.cadena();
-		System.out.print("Email: ");
-		String email = Entrada.cadena();
-		System.out.print("Teléfono: ");
-		String phone = Entrada.cadena();
-		System.out.print("Fecha de nacimiento (aaaa-mm-dd): ");
-		String birth = Entrada.cadena();
-		System.out.print("Área de trabajo: ");
-		String area = Entrada.cadena();
-
-		Employee employee = new Employee(name, surname, email, phone, birth, area);
-		data.savedEmployee.add(employee);
-		data.addLogMessage("Se ha creado un nuevo Employee: " + employee.getName());
-		this.logMessages.add("Se ha creado un nuevo Employee: " + employee.getName());
-	}
-
-
-
-
-	@Override
-	public int compareTo(Boss otherUser)
-	{
-		return this.getName().compareTo(otherUser.getName());
-	}
-
-
-
 
 	public static Boss createBoss()
 	{
