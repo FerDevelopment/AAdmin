@@ -252,6 +252,9 @@ public class Person implements Serializable, Comparable<Person>
 			}
 			else
 			{
+				System.out.println(people.get(a).getESC());
+				System.out.println(password);
+				System.out.println(eSC);
 				System.out.println("Contraseña incorrecta");
 			}
 

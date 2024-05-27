@@ -18,7 +18,7 @@ public class Manager extends Person
 	{
 		super(name, surname, email, phone, birth, area);
 		this.nickname = nickname;
-		this.eSC = Person.encrypt(eSC);
+		this.eSC =eSC;
 	}
 
 

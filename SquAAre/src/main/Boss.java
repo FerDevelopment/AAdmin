@@ -41,19 +41,31 @@ public class Boss extends Person
 
 	public static Boss createBoss()
 	{
-		System.out.println("Introduce los datos del nuevo Boss:");
-		System.out.print("Nombre: ");
-		String name = Entrada.cadena();
-		System.out.print("Apellido: ");
-		String surname = Entrada.cadena();
-		System.out.print("Email: ");
-		String email = Entrada.cadena();
-		System.out.print("Teléfono: ");
-		String phone = Entrada.cadena();
-		System.out.print("Fecha de nacimiento (aaaa-mm-dd): ");
-		String birth = Entrada.cadena();
-		System.out.print("Área de trabajo: ");
-		String area = Entrada.cadena();
+		String name = "";
+		String surname = "";
+		String email = "";
+		String phone = "";
+		String birth = "";
+		String area = "";
+		String emailPattern = ".*@.*[.][A-Za-z]{1,4}";
+		String noNumPattern = "^[\\D]+$";
+		String phonePattern = "^[0-9]{9}$";
+		String birthPattern = "^[0-9]{4}-[0-9]{2}-[0-9]{2}";
+
+		Printer.print("\n\n" + StaticData.BARRA + "Datos personales" + StaticData.BARRA + "\n\n");
+		Printer.print("Introduzca su nombre: ");
+		name = getText(name, noNumPattern);
+		Printer.print("Introduzca sus apellidos: ");
+		surname = getText(surname, noNumPattern);
+		Printer.print("Introduzca su email: ");
+		email = getText(email, emailPattern);
+		Printer.print("Introduzca su número de teléfono: ");
+		phone = getText(phone, phonePattern);
+		Printer.print("Introduzca su fecha de nacimiento (aaaa-mm-dd): ");
+		birth = getText(birth, birthPattern);
+		Printer.print("Introduzca su área de trabajo: ");
+		area = getText(area, noNumPattern);
+
 		System.out.print("Nickname: ");
 		String nickname = Entrada.cadena();
 		System.out.print("Contraseña: ");
