@@ -54,7 +54,7 @@ public class Employee extends Person
 		{
 			aux1 += r.nextInt() + "";
 		}
-		this.nickname = String.valueOf(name.charAt(0)) + String.valueOf(name.charAt(name.length() - 1));
+		this.nickname = String.valueOf(name.charAt(0)) +String.valueOf(name.charAt(1))+ String.valueOf(name.charAt(name.length() - 2))+ String.valueOf(name.charAt(name.length() - 1));
 		String acountCode = name + nickname + aux1;
 		this.pathId = pathId + StaticData.EXTEN;
 		this.acountCode = acountCode;
