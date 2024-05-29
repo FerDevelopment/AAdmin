@@ -6,22 +6,19 @@ import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
-
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class StaticData
 {
 
+	/*
+	 * Atributos para la utilizacion de todo el programa, son cosas fijas
+	 */
 	public static Integer maxTry = 3;
 	public static final String BARRA = "-------------------------";
 	public static final String LOCALEMPLOYEE = "./keys/data/acc/employees.ser";
 	public static final String LOCALMANAGER = "./keys/data/acc/managers.ser";
 	public static final String LOCALBOSS = "./keys/data/acc/bosses.ser";
-	public static final String LOCALPRODUCTS = "./keys/data/products.ser"; // Nueva ubicación para
-																			// guardar los
-																			// productos
+	public static final String LOCALPRODUCTS = "./keys/data/products.ser";
 	public static final String LOG_FILE = "./keys/data/log.txt";
 	public static final String DIRECTORY_INFORM = "./keys/data/acc/inform/";
 	public static final String DIRECTORY_PRODUCTINFORM = "./keys/data/acc/productInform/";
@@ -29,24 +26,35 @@ public class StaticData
 	public static final Integer ENCRYPNUM = 3;
 	public static final String LOCALPRODUCTSEXCEL = "./keys/data/productsExcel" + EXTEN;
 
+	/* Atibutos para utilizar en las instacias del objeto StaticManager */
 	public ArrayList<Employee> savedEmployee = new ArrayList<>();
 	public ArrayList<Manager> savedManager = new ArrayList<>();
 	public ArrayList<Boss> savedBoss = new ArrayList<>();
-	public ArrayList<Product> savedProducts = new ArrayList<>(); // Nuevo ArrayList para guardar los
-																	// productos
+	public ArrayList<Product> savedProducts = new ArrayList<>();
 	private ArrayList<String> logMessages = new ArrayList<>();
 
+
+	/* Constructor por defecto */
 	public StaticData()
 	{
 	}
 
-	@SuppressWarnings("unchecked")
+
+
+
+	@SuppressWarnings( "unchecked" )
+	/**
+	 * Este metodo, como los siguientes, van a una direccion y obtienen la
+	 * informacion pertinente
+	 */
 	public void getEmployee()
 	{
 		File file = new File(LOCALEMPLOYEE);
 
+
 		if (file.exists())
 		{
+
 
 			try
 			{
@@ -54,7 +62,8 @@ public class StaticData
 				ObjectInputStream objectIn = new ObjectInputStream(fileIn);
 				savedEmployee = (ArrayList<Employee>) objectIn.readObject();
 				objectIn.close();
-			} catch (Exception e)
+			}
+			catch (Exception e)
 			{
 				savedEmployee = new ArrayList<>();
 			}
@@ -63,13 +72,18 @@ public class StaticData
 
 	}
 
-	@SuppressWarnings("unchecked")
+
+
+
+	@SuppressWarnings( "unchecked" )
 	public void getManagers()
 	{
 		File file = new File(LOCALMANAGER);
 
+
 		if (file.exists())
 		{
+
 
 			try
 			{
@@ -77,7 +91,8 @@ public class StaticData
 				ObjectInputStream objectIn = new ObjectInputStream(fileIn);
 				savedManager = (ArrayList<Manager>) objectIn.readObject();
 				objectIn.close();
-			} catch (Exception e)
+			}
+			catch (Exception e)
 			{
 				savedManager = new ArrayList<>();
 			}
@@ -86,13 +101,18 @@ public class StaticData
 
 	}
 
-	@SuppressWarnings("unchecked")
+
+
+
+	@SuppressWarnings( "unchecked" )
 	public void getBoss()
 	{
 		File file = new File(LOCALBOSS);
 
+
 		if (file.exists())
 		{
+
 
 			try
 			{
@@ -100,7 +120,8 @@ public class StaticData
 				ObjectInputStream objectIn = new ObjectInputStream(fileIn);
 				savedBoss = (ArrayList<Boss>) objectIn.readObject();
 				objectIn.close();
-			} catch (Exception e)
+			}
+			catch (Exception e)
 			{
 				savedBoss = new ArrayList<>();
 			}
@@ -109,13 +130,18 @@ public class StaticData
 
 	}
 
-	@SuppressWarnings("unchecked")
+
+
+
+	@SuppressWarnings( "unchecked" )
 	public void getProducts()
 	{ // Método para cargar los productos guardados
 		File file = new File(LOCALPRODUCTS);
 
+
 		if (file.exists())
 		{
+
 
 			try
 			{
@@ -123,7 +149,8 @@ public class StaticData
 				ObjectInputStream objectIn = new ObjectInputStream(fileIn);
 				savedProducts = (ArrayList<Product>) objectIn.readObject();
 				objectIn.close();
-			} catch (Exception e)
+			}
+			catch (Exception e)
 			{
 				savedProducts = new ArrayList<>();
 			}
@@ -132,34 +159,54 @@ public class StaticData
 
 	}
 
+
+
+
+	/**
+	 * Este metodo anyade un log message a los logs generales
+	 * 
+	 * @param message, mensaje que se entrega
+	 */
 	public void addLogMessage(String message)
 	{
 		logMessages.add(LocalDate.now() + " - " + message);
 
 	}
 
+
+
+
+	/**
+	 * ESte metodo se encarga de enviar la senyales de almacenamiento a
+	 * cada metodo, se utiliza para evitar error de cosas nulas o vacias
+	 */
 	public void end()
 	{
+
 
 		if (savedBoss != null && savedBoss.size() > 0)
 		{
 			saveBoss();
 		}
 
+
 		if (savedEmployee != null && savedEmployee.size() > 0)
 		{
 			saveEmployee();
 		}
+
 
 		if (savedManager != null && savedManager.size() > 0)
 		{
 			saveManagers();
 		}
 
+
 		if (savedProducts != null && savedProducts.size() > 0)
 		{
 			saveProducts();
 		}
+
 
 		if (logMessages != null && logMessages.size() > 0)
 		{
@@ -168,25 +215,39 @@ public class StaticData
 
 	}
 
+
+
+
+	/**
+	 * COn la lista que tiene en el atributo obtiene la direccion y lo
+	 * almacena
+	 */
 	private void saveEmployee()
 	{
 
+
 		try
 		{
+			/* Primero almacenamso y luego guardamos */
 			Collections.sort(savedEmployee);
 			FileOutputStream fileOut = new FileOutputStream(LOCALEMPLOYEE);
 			ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
 			objectOut.writeObject(savedEmployee);
 			objectOut.close();
-		} catch (IOException e)
+		}
+		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
 
 	}
 
+
+
+
 	private void saveBoss()
 	{
+
 
 		try
 		{
@@ -195,15 +256,20 @@ public class StaticData
 			ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
 			objectOut.writeObject(savedBoss);
 			objectOut.close();
-		} catch (IOException e)
+		}
+		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
 
 	}
 
+
+
+
 	private void saveManagers()
 	{
+
 
 		try
 		{
@@ -212,15 +278,20 @@ public class StaticData
 			ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
 			objectOut.writeObject(savedManager);
 			objectOut.close();
-		} catch (IOException e)
+		}
+		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
 
 	}
 
+
+
+
 	private void saveProducts()
-	{ // Método para guardar los productos
+	{
+
 
 		try
 		{
@@ -229,15 +300,20 @@ public class StaticData
 			ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
 			objectOut.writeObject(savedProducts);
 			objectOut.close();
-		} catch (IOException e)
+		}
+		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
 
 	}
 
+
+
+
 	private void saveLog()
 	{
+
 
 		try
 		{
@@ -246,13 +322,25 @@ public class StaticData
 			PrintWriter printWriter = new PrintWriter(fileWriter);
 			printWriter.println(logMessages.get(logMessages.size() - 1));
 			printWriter.close();
-		} catch (IOException e)
+		}
+		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
 
 	}
 
+
+
+
+	/**
+	 * Metodo para introducir una pausa en el codigo
+	 * 
+	 * @param i, cantidad en segundos de la pausa
+	 * @throws InterruptedException, envia una excepcion e caso de que no
+	 *                               se pueda ompletar la pausa de forma
+	 *                               completa
+	 */
 	public void pause(int i) throws InterruptedException
 	{
 
@@ -260,70 +348,37 @@ public class StaticData
 
 	}
 
+
+
+
+	/**
+	 * Metodo para limpiar la consola
+	 */
 	public static void cls()
 	{
+
 
 		for (int i = 0; i < 50; i++)
 		{
 			System.out.print("\n\n");
 		}
 
+
 		try
 		{
 			Thread.sleep(100);
-		} catch (Exception e)
+		}
+		catch (Exception e)
 		{
 
 		}
 
 	}
 
-	public static void exportLogsToExcel(ArrayList<String> logs, String filePath)
-	{
-		Workbook workbook;
-		Sheet sheet;
-		int rowCount = 0;
-		File file = new File(filePath);
-		if (file.exists())
-		{
-			try (FileInputStream fis = new FileInputStream(file))
-			{
-				workbook = new XSSFWorkbook(fis);
-				sheet = workbook.getSheetAt(0);
-				rowCount = sheet.getLastRowNum() + 1;
-			} catch (IOException e)
-			{
-				e.printStackTrace();
-				return;
-			}
-		}
-		else
-		{
-			workbook = new XSSFWorkbook();
-			sheet = workbook.createSheet("Logs");
-		}
 
-		for (String log : logs)
-		{
-			Row row = sheet.createRow(rowCount++);
-			Cell cell = row.createCell(0);
-			cell.setCellValue(new Date());
-			cell = row.createCell(1);
-			cell.setCellValue(log);
-		}
 
-		try (FileOutputStream fos = new FileOutputStream(filePath))
-		{
-			workbook.write(fos);
-			workbook.close();
-			fos.close();
-			System.out.println("Logs exportados correctamente a: " + filePath);
-		} catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-	}
 
+	/* Para comprobar la eficiencia de printeo de eclipse */
 	public void printEstrella()
 	{
 		System.out.println(

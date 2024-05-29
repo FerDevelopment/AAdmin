@@ -1,3 +1,4 @@
+
 package main;
 
 import java.awt.Desktop;
@@ -21,16 +22,24 @@ import com.comun.Printer;
 
 public class Product implements Comparable<Product>, Serializable
 {
+
+	/* Atributos */
 	private static final long serialVersionUID = 9L;
 	private String name;
 	private Double price;
 	private Integer quantity;
 
+
+	/* Constructor por defecto */
 	public Product()
 	{
 
 	}
 
+
+
+
+	/* Constructor parametrizado */
 	public Product(String nombre, double precio, int cantidad)
 	{
 		this.name = nombre;
@@ -38,40 +47,66 @@ public class Product implements Comparable<Product>, Serializable
 		this.quantity = cantidad;
 	}
 
+
+
+
+	/* Constructor para la bsuqueda auxiliar */
 	public Product(String name)
 	{
 		this.name = name;
 	}
 
+
+
+
+	/* Getters and Setters */
 	public String getName()
 	{
 		return name;
 	}
+
+
+
 
 	public void setNombre(String nombre)
 	{
 		this.name = nombre;
 	}
 
+
+
+
 	public Double getPrecio()
 	{
 		return price;
 	}
+
+
+
 
 	public void setPrecio(Double precio)
 	{
 		this.price = precio;
 	}
 
+
+
+
 	public Integer getCantidad()
 	{
 		return quantity;
 	}
 
+
+
+
 	public void setCantidad(Integer cantidad)
 	{
 		this.quantity = cantidad;
 	}
+
+
+
 
 	@Override
 	public int compareTo(Product o)
@@ -79,32 +114,58 @@ public class Product implements Comparable<Product>, Serializable
 		return this.getName().compareTo(o.getName());
 	}
 
+
+
+
 	@Override
 	public String toString()
 	{
 		return "Nombre:" + name + "| Precio: " + price + "€| Cantidad: " + quantity;
 	}
 
+
+
+
+	/**
+	 * Metodo para un string para poder usar un StringTokenizer para poder
+	 * separar valores de manera rapida
+	 * 
+	 * @return
+	 */
 	public String toDocument()
 	{
 		return name + ";" + price + ";" + quantity;
 	}
 
+
+
+
+	/**
+	 * Metodo para guardar el excel de los productos
+	 * 
+	 * @param savedProducts
+	 */
 	public static void savedProduct(ArrayList<Product> savedProducts)
 	{
 
 		String[] columna =
 		{ "Nombre", "Precio", "Cantidad" };
 		File archivo = new File(StaticData.LOCALPRODUCTSEXCEL);
+
+
 		if (!archivo.exists())
 		{
+
+
 			try
 			{
 				archivo.createNewFile();
-			} catch (IOException e)
+			}
+			catch (IOException e)
 			{
 				e.printStackTrace();
 			}
+
 		}
 
 		Workbook libro = new HSSFWorkbook();
@@ -116,6 +177,7 @@ public class Product implements Comparable<Product>, Serializable
 		style.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
 		style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
+
 		/* Ponemos la cabecera con un estilo */
 		for (Integer i = 0; i < columna.length; i++)
 		{
@@ -124,12 +186,14 @@ public class Product implements Comparable<Product>, Serializable
 			celda.setCellValue(columna[i]);
 		}
 
+
 		for (Integer i = 0; i < savedProducts.size(); i++)
 		{
 			fila = hoja.createRow(i + 1);
 			String aux = savedProducts.get(i).toDocument();
 			StringTokenizer help = new StringTokenizer(aux, ";");
 			Integer index = 0;
+
 
 			while (help.hasMoreTokens())
 			{
@@ -139,6 +203,7 @@ public class Product implements Comparable<Product>, Serializable
 			}
 
 		}
+
 
 		try
 		{
@@ -150,7 +215,8 @@ public class Product implements Comparable<Product>, Serializable
 
 			Desktop.getDesktop().open(new File(StaticData.LOCALPRODUCTSEXCEL));
 
-		} catch (Exception e)
+		}
+		catch (Exception e)
 		{
 			Printer.print("\n\n***************Error de escritura***************\n\n");
 			Printer.print("\n\n" + e);

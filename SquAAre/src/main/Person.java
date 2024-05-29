@@ -11,6 +11,7 @@ import com.comun.*;
 public class Person implements Serializable, Comparable<Person>
 {
 
+	/* Atributos */
 	private static final long serialVersionUID = 1L;
 	private String name;
 	private String surname;
@@ -20,28 +21,11 @@ public class Person implements Serializable, Comparable<Person>
 	private String area;
 	protected String eSC;
 	protected String nickname;
-
+	/* ArrayList Personalizado */
 	CustomLogMessagesList logMessages = new CustomLogMessagesList();
 
-	public Person(String name, String surname, String email, String phone, String birth, String area)
-	{
-		this.logMessages = new CustomLogMessagesList();
-		this.name = name;
-		this.surname = surname;
-		this.email = email;
-		this.phone = phone;
 
-		try
-		{
-			this.birth = LocalDate.parse(birth);
-		} catch (Exception e)
-		{
-			System.out.println("***La fecha no es válida***");
-		}
-
-		this.area = area;
-	}
-
+	/* Constructor por defecto */
 	public Person()
 	{
 		this.name = "";
@@ -51,17 +35,24 @@ public class Person implements Serializable, Comparable<Person>
 		this.area = "";
 	}
 
-	public Person(String name, String surname, String email, String phone, LocalDate birth, String area)
+
+
+
+	/* Constructor parametrizado */
+	public Person(String name, String surname, String email, String phone, String birth, String area)
 	{
+		this.logMessages = new CustomLogMessagesList();
 		this.name = name;
 		this.surname = surname;
 		this.email = email;
 		this.phone = phone;
 
+
 		try
 		{
-			this.birth = birth;
-		} catch (Exception e)
+			this.birth = LocalDate.parse(birth);
+		}
+		catch (Exception e)
 		{
 			System.out.println("***La fecha no es válida***");
 		}
@@ -69,63 +60,124 @@ public class Person implements Serializable, Comparable<Person>
 		this.area = area;
 	}
 
+
+
+
+	/* Constructor parametrizado con fecha directa */
+	public Person(String name, String surname, String email, String phone, LocalDate birth, String area)
+	{
+		this.name = name;
+		this.surname = surname;
+		this.email = email;
+		this.phone = phone;
+
+
+		try
+		{
+			this.birth = birth;
+		}
+		catch (Exception e)
+		{
+			System.out.println("***La fecha no es válida***");
+		}
+
+		this.area = area;
+	}
+
+
+
+
+	/* Getters and setters */
 	public String getESC()
 	{
 		return eSC;
 	}
+
+
+
 
 	public String getName()
 	{
 		return name;
 	}
 
+
+
+
 	public void setName(String name)
 	{
 		this.name = name;
 	}
+
+
+
 
 	public String getSurname()
 	{
 		return surname;
 	}
 
+
+
+
 	public void setSurname(String surname)
 	{
 		this.surname = surname;
 	}
+
+
+
 
 	public String getEmail()
 	{
 		return email;
 	}
 
+
+
+
 	public void setEmail(String email)
 	{
 		this.email = email;
 	}
+
+
+
 
 	public String getPhone()
 	{
 		return phone;
 	}
 
+
+
+
 	public void setPhone(String phone)
 	{
 		this.phone = phone;
 	}
+
+
+
 
 	public LocalDate getBirth()
 	{
 		return birth;
 	}
 
+
+
+
+	/* Para que la fecha no se vaya de formato */
 	public void setBirth(String birth)
 	{
+
 
 		try
 		{
 			this.birth = LocalDate.parse(birth);
-		} catch (Exception e)
+		}
+		catch (Exception e)
 		{
 			System.out.println("***La fecha no es válida***\n\nIntroduzcala de nuevo aaaa-mm-dd\n-->");
 			birth = Entrada.cadena();
@@ -134,29 +186,60 @@ public class Person implements Serializable, Comparable<Person>
 
 	}
 
+
+
+
 	public String getArea()
 	{
 		return area;
 	}
+
+
+
 
 	public void setArea(String area)
 	{
 		this.area = area;
 	}
 
+
+
+
 	public String getNickname()
 	{
 		return nickname;
 	}
+
+
+
 
 	public void setNickname(String nickname)
 	{
 		this.nickname = nickname;
 	}
 
+
+
+
+	public void setESC(String newValue)
+	{
+		this.eSC = newValue;
+
+	}
+
+
+
+
+	/**
+	 * Metodo utilizado para encriptar contrasenyas. Siempre se encripta,
+	 * nunca al contrario
+	 * 
+	 * @param intro, texto a encriptar @return, texto encriptado
+	 */
 	protected static String encrypt(String intro)
 	{
 		StringBuilder aux = new StringBuilder();
+
 
 		for (int i = 0; i < intro.length(); i++)
 		{
@@ -169,6 +252,12 @@ public class Person implements Serializable, Comparable<Person>
 		return aux.toString();
 	}
 
+
+
+
+	/**
+	 * Metodo para crear una nueva persona @return, new Person
+	 */
 	public static Person newPerson()
 	{
 		String name = "";
@@ -191,8 +280,7 @@ public class Person implements Serializable, Comparable<Person>
 		email = getText(email, emailPattern);
 		Printer.print("Introduzca su número de teléfono: ");
 		phone = getText(phone, phonePattern);
-		Printer.print("Introduzca su fecha de nacimiento (aaaa-mm-dd): ");
-		birth = getText(birth, birthPattern);
+		birth = birth(birthPattern);
 		Printer.print("Introduzca su área de trabajo: ");
 		area = getText(area, noNumPattern);
 
@@ -201,12 +289,55 @@ public class Person implements Serializable, Comparable<Person>
 		return new Person(name, surname, email, phone, birth, area);
 	}
 
+
+
+
+	/**
+	 * Este metodo comprueba de manera interna que una fecha esté bien
+	 * puesta
+	 * 
+	 * @param birthPattern, birthPattern, es el patron que utilizaremos
+	 *                      para validar la fecha @return, un string bien
+	 *                      formateado y la fecha es totalmente valida
+	 */
+	protected static String birth(String birthPattern)
+	{
+		String birth = "";
+		Printer.print("Introduzca su fecha de nacimiento (aaaa-mm-dd): ");
+		birth = getText(birth, birthPattern);
+
+
+		try
+		{
+			LocalDate.parse(birth);
+		}
+		catch (Exception e)
+		{
+			System.out.println("*** Fecha mal ***");
+			birth = birth(birthPattern);
+		}
+
+		return birth;
+	}
+
+
+
+
+	/**
+	 * Este metodo comprueba el formato de una cadena
+	 * 
+	 * @param text,    la cadena a comprobar
+	 * @param pattern, el patron a utilizar
+	 * @return
+	 */
 	protected static String getText(String text, String pattern)
 	{
+
 
 		do
 		{
 			text = Entrada.cadena();
+
 
 			if (!text.matches(pattern))
 			{
@@ -218,9 +349,21 @@ public class Person implements Serializable, Comparable<Person>
 		return text;
 	}
 
+
+
+
+	/**
+	 * Este metodo es exclusivamente para hacer el login de cualquier hijo
+	 * de people, en este caso los boss, employee, manager
+	 * 
+	 * @param people, es una lista con los datos de cada usuario
+	 * @return
+	 */
 	public static Person login(ArrayList<? extends Person> people)
 	{
 
+
+		/* Comprobamos el numero de intentos disponibles */
 		if (StaticData.maxTry <= 0)
 		{
 			System.out.println("Ha excedido el numero de intentos\n");
@@ -228,21 +371,32 @@ public class Person implements Serializable, Comparable<Person>
 			return null;
 		}
 
+		/* Introducimos el nickname en una variable auxiliar */
 		Printer.print("Introduzca su NickName: ");
 		String nickname = Entrada.cadena();
 
 		Person aux = new Person();
 		aux.setNickname(nickname);
-		int a = Collections.binarySearch(people, aux);
+		/* Invocamos el metodo de busqueda */
+		Integer a = Collections.binarySearch(people, aux);
 
+
+		/* En caso de que encuentre una posición se hace el login */
 		if (a >= 0)
 		{
 			aux = people.get(a);
 			System.out.println(aux.toString());
+
+			/* Se introduce la contrasenya */
 			Printer.print("Introduzca su contraseña: ");
 			String password = Entrada.cadena();
 			String eSC = encrypt(password);
 
+
+			/*
+			 * Comprobamso la contrasenya y, en caso de estar mal, lo devolvemos
+			 * al inicio
+			 */
 			if (people.get(a).getESC().equals(eSC))
 			{
 				Printer.print("Inicio de sesión exitoso.\n");
@@ -252,9 +406,6 @@ public class Person implements Serializable, Comparable<Person>
 			}
 			else
 			{
-				System.out.println(people.get(a).getESC());
-				System.out.println(password);
-				System.out.println(eSC);
 				System.out.println("Contraseña incorrecta");
 			}
 
@@ -268,24 +419,31 @@ public class Person implements Serializable, Comparable<Person>
 		return login(people);
 	}
 
-	public void setESC(String newValue)
-	{
-		this.eSC = newValue;
 
-	}
 
+
+	/**
+	 * Metodo para crear un nuevo empleado, se utiliza en la clase person
+	 * para facilitar el uso gracias a la herencia
+	 * 
+	 * @param data, es una instancia de la clase data, donde se guarda
+	 *              casi toda la informacion como tal
+	 */
 	public void createEmployee(StaticData data)
 	{
+		/* Se intenta crear el empleado */
 		Employee newEmployee = Employee.newEmployee();
 
+
+		/* En caso de poderse crear se agrega despues los mensajes de log */
 		if (newEmployee != null)
 		{
 			data.savedEmployee.add(newEmployee);
 			System.out.println("\n*** Nuevo empleado creado exitosamente ***\n");
-			data.addLogMessage("El manager " + this.getName() + " " + this.getSurname() + " ha creado al empleado "
-					+ newEmployee.getName() + " " + newEmployee.getSurname());
-			this.logMessages.add("El manager " + this.getName() + " " + this.getSurname() + " ha creado al empleado "
-					+ newEmployee.getName() + " " + newEmployee.getSurname());
+			data.addLogMessage("El manager " + this.getName() + " " + this.getSurname()
+					+ " ha creado al empleado " + newEmployee.getName() + " " + newEmployee.getSurname());
+			this.logMessages.add("El manager " + this.getName() + " " + this.getSurname()
+					+ " ha creado al empleado " + newEmployee.getName() + " " + newEmployee.getSurname());
 		}
 		else
 		{
@@ -294,12 +452,20 @@ public class Person implements Serializable, Comparable<Person>
 
 	}
 
+
+
+
+	/**
+	 * Metodo para visualizar el informe de actividad
+	 */
 	public void viewActivityReport()
 	{
+
 
 		if (this.logMessages != null)
 		{
 			System.out.println("Informe de actividad:");
+
 
 			for (LogMessages message : this.logMessages)
 			{
@@ -314,17 +480,32 @@ public class Person implements Serializable, Comparable<Person>
 
 	}
 
+
+
+
+	/**
+	 * Metodo para modificar empleados atributo por atributo
+	 * 
+	 * @param data,     instancia de data para guardar las informaciones
+	 *                  pertinentes
+	 * @param employee, empleado a modificar
+	 */
 	public void modifyEmployee(StaticData data, Employee employee)
 	{
 
+
+		/* Confirmamos que nos esté vacío el empleado */
 		if (employee != null)
 		{
+			/* Variable auxiliar para los cambios */
 			String oldValue = "";
 			String newValue = "";
 			System.out.println(
 					"\n¿Qué dato desea modificar?\n->1.Nombre y apellidos\n->2.Email\n->3.Teléfono\n->4.Fecha de nacimiento\n->5.Área de trabajo\n->6.Nickname\n->7.Contraseña");
 			Integer option = Entrada.entero();
 
+
+			/* Se pregunta el valor nuevo, se cambiay se agrega el log */
 			switch (option)
 			{
 				case 1:
@@ -344,6 +525,8 @@ public class Person implements Serializable, Comparable<Person>
 					break;
 				}
 
+
+
 				case 2:
 				{
 					System.out.print("Email: ");
@@ -353,6 +536,8 @@ public class Person implements Serializable, Comparable<Person>
 					this.logMessages.add("Email del empleado " + oldValue + " cambiado a " + newValue);
 					break;
 				}
+
+
 
 				case 3:
 				{
@@ -364,25 +549,35 @@ public class Person implements Serializable, Comparable<Person>
 					break;
 				}
 
+
+
 				case 4:
 				{
 					System.out.print("Fecha de nacimiento (aaaa-mm-dd): ");
 					oldValue = employee.getBirth().toString();
 					employee.setBirth(newValue);
-					data.addLogMessage("Fecha de nacimiento del empleado " + oldValue + " cambiada a " + newValue);
-					this.logMessages.add("Fecha de nacimiento del empleado " + oldValue + " cambiada a " + newValue);
+					data.addLogMessage(
+							"Fecha de nacimiento del empleado " + oldValue + " cambiada a " + newValue);
+					this.logMessages
+							.add("Fecha de nacimiento del empleado " + oldValue + " cambiada a " + newValue);
 					break;
 				}
+
+
 
 				case 5:
 				{
 					System.out.print("Área de trabajo: ");
 					oldValue = employee.getArea();
 					employee.setArea(newValue);
-					data.addLogMessage("Área de trabajo del empleado " + oldValue + " cambiada a " + newValue);
-					this.logMessages.add("Área de trabajo del empleado " + oldValue + " cambiada a " + newValue);
+					data.addLogMessage(
+							"Área de trabajo del empleado " + oldValue + " cambiada a " + newValue);
+					this.logMessages
+							.add("Área de trabajo del empleado " + oldValue + " cambiada a " + newValue);
 					break;
 				}
+
+
 
 				case 6:
 				{
@@ -394,6 +589,8 @@ public class Person implements Serializable, Comparable<Person>
 					break;
 				}
 
+
+
 				case 7:
 				{
 					oldValue = employee.getESC();
@@ -402,6 +599,8 @@ public class Person implements Serializable, Comparable<Person>
 					this.logMessages.add("Contraseña del empleado cambiada.");
 					break;
 				}
+
+
 
 				default:
 					System.out.println("Opción no válida");
@@ -417,8 +616,20 @@ public class Person implements Serializable, Comparable<Person>
 
 	}
 
-	public void modifyManager(StaticData data, Manager manager, Person subBoss)
+
+
+
+	/**
+	 * Metodo igual que el anterior, pero esta vez para modificar un
+	 * manager
+	 * 
+	 * @param data,    instancia de data para guardar las informaciones
+	 *                 pertinentes
+	 * @param manager, manager a modificar
+	 */
+	public void modifyManager(StaticData data, Manager manager)
 	{
+
 
 		if (manager != null)
 		{
@@ -427,6 +638,7 @@ public class Person implements Serializable, Comparable<Person>
 			System.out.println(
 					"\n¿Qué dato desea modificar?\n->1.Nombre y apellidos\n->2.Email\n->3.Teléfono\n->4.Fecha de nacimiento\n->5.Área de trabajo\n->6.Nickname\n->7.Contraseña");
 			Integer option = Entrada.entero();
+
 
 			switch (option)
 			{
@@ -448,6 +660,8 @@ public class Person implements Serializable, Comparable<Person>
 					break;
 				}
 
+
+
 				case 2:
 				{
 					System.out.print("Email: ");
@@ -458,6 +672,8 @@ public class Person implements Serializable, Comparable<Person>
 
 					break;
 				}
+
+
 
 				case 3:
 				{
@@ -470,16 +686,22 @@ public class Person implements Serializable, Comparable<Person>
 					break;
 				}
 
+
+
 				case 4:
 				{
 					System.out.print("Fecha de nacimiento (aaaa-mm-dd): ");
 					oldValue = manager.getBirth().toString();
 					manager.setBirth(newValue);
-					data.addLogMessage("Fecha de nacimiento del manager " + oldValue + " cambiada a " + newValue);
-					this.logMessages.add("Fecha de nacimiento del manager " + oldValue + " cambiada a " + newValue);
+					data.addLogMessage(
+							"Fecha de nacimiento del manager " + oldValue + " cambiada a " + newValue);
+					this.logMessages
+							.add("Fecha de nacimiento del manager " + oldValue + " cambiada a " + newValue);
 
 					break;
 				}
+
+
 
 				case 5:
 				{
@@ -487,9 +709,12 @@ public class Person implements Serializable, Comparable<Person>
 					oldValue = manager.getArea();
 					manager.setArea(newValue);
 					data.addLogMessage("Área de trabajo del manager " + oldValue + " cambiada a " + newValue);
-					this.logMessages.add("Área de trabajo del manager " + oldValue + " cambiada a " + newValue);
+					this.logMessages
+							.add("Área de trabajo del manager " + oldValue + " cambiada a " + newValue);
 					break;
 				}
+
+
 
 				case 6:
 				{
@@ -501,6 +726,8 @@ public class Person implements Serializable, Comparable<Person>
 					break;
 				}
 
+
+
 				case 7:
 				{
 					oldValue = manager.getESC();
@@ -509,6 +736,8 @@ public class Person implements Serializable, Comparable<Person>
 					this.logMessages.add("Contraseña del manager cambiada.");
 					break;
 				}
+
+
 
 				default:
 					System.out.println("Opción no válida");
@@ -524,14 +753,22 @@ public class Person implements Serializable, Comparable<Person>
 
 	}
 
+
+
+
 	@Override
 	public int compareTo(Person otherUser)
 	{
 		return this.nickname.compareTo(otherUser.nickname);
 	}
 
+
+
+
+	@Override
 	public String toString()
 	{
 		return eSC;
 	}
+
 }
